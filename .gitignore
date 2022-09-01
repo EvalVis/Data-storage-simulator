@@ -33,4 +33,3 @@ build/
 .vscode/
 
 ### Ignore sensitive data ###
-src/main/resources/application.properties
