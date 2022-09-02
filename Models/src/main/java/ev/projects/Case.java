@@ -2,6 +2,7 @@ package ev.projects;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 
 public class Case {
 
@@ -49,5 +50,18 @@ public class Case {
 
     public void setDocuments(List<Document> documents) {
         this.documents = documents;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Case aCase = (Case) o;
+        return ID == aCase.ID;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(ID);
     }
 }
