@@ -1,34 +1,21 @@
 package ev.projects;
 
-import java.util.List;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 public class Document {
 
-    private File file;
-    private Case parentCase;
-    private List<Attachment> attachments;
+    private long ID;
+    private String title;
+    private String description;
+    private String filePath;
+    private long fileSize;
+    private String mimeType;
 
-    public File getFile() {
-        return file;
-    }
-
-    public void setFile(File file) {
-        this.file = file;
-    }
-
-    public Case getParentCase() {
-        return parentCase;
-    }
-
-    public void setParentCase(Case parentCase) {
-        this.parentCase = parentCase;
-    }
-
-    public List<Attachment> getAttachments() {
-        return attachments;
-    }
-
-    public void setAttachments(List<Attachment> attachments) {
-        this.attachments = attachments;
-    }
 }

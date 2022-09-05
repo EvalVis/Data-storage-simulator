@@ -2,7 +2,6 @@ package ev.projects.webapp.repositories;
 
 import ev.projects.Case;
 import ev.projects.Document;
-import ev.projects.File;
 import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;

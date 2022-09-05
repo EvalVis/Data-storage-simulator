@@ -1,6 +1,5 @@
 package ev.projects.webapp.rest_controllers;
 
-import ev.projects.Attachment;
 import ev.projects.Case;
 import ev.projects.Document;
 import ev.projects.webapp.repositories.EntityRepository;
