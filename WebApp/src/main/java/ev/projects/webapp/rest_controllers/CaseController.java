@@ -1,36 +1,32 @@
 package ev.projects.webapp.rest_controllers;
 
 import ev.projects.Case;
-import ev.projects.webapp.repositories.CaseRepository;
+import ev.projects.webapp.services.ICaseService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+
 import java.util.List;
 import java.util.Optional;
 
+@RequestMapping("/api/cases")
 @RestController
 public class CaseController {
 
-    private EntityRepository<Case> caseRepository;
+    private ICaseService caseService;
 
     @Autowired
-    public CaseController(CaseRepository caseRepository) {
-        this.caseRepository = caseRepository;
+    public CaseController(ICaseService caseService) {
+        this.caseService = caseService;
     }
 
-    @GetMapping("/cases")
+    @GetMapping("/")
     public List<Case> getCases() {
-        return caseRepository.getAll();
+        return caseService.getAll();
     }
 
-    @GetMapping("/case")
-    public Optional<Case> getCase(@RequestParam("id") long ID) {
-        return caseRepository.getByID(ID);
+    @GetMapping("/{id}")
+    public Optional<Case> getCase(@PathVariable("id") long ID) {
+        return caseService.getAllById(ID);
     }
-
-    @PostMapping("/cases/create")
-    public void saveCase(@RequestBody Case caseToSave) {
-        caseRepository.save(caseToSave);
-    }
-
 
 }

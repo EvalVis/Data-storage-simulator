@@ -1,43 +1,48 @@
 package ev.projects.webapp.rest_controllers;
 
-import ev.projects.Case;
 import ev.projects.Document;
+import ev.projects.webapp.response_models.DownloadDocumentResponse;
+import ev.projects.webapp.services.IDocumentService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
 
+import java.util.List;
+
+@RequestMapping("/api/documents")
 @RestController
 public class DocumentController {
 
-    private EntityRepository<Document> documentRepository;
-    private EntityRepository<Case> caseRepository;
+    private IDocumentService documentService;
 
     @Autowired
-    public DocumentController(EntityRepository<Document> documentRepository, EntityRepository<Case> caseRepository) {
-        this.documentRepository = documentRepository;
-        this.caseRepository = caseRepository;
+    public DocumentController(IDocumentService documentService) {
+        this.documentService = documentService;
     }
 
-    @GetMapping("/case/documents")
-    public List<Document> getDocuments(@RequestParam("id") long caseID) {
-        Optional<Case> foundCase = caseRepository.getByID(caseID);
-        if(foundCase.isPresent()) {
-            return foundCase.get().getDocuments();
-        }
-        return new ArrayList<>();
+    @GetMapping("/{case_id}")
+    public List<Document> getDocumentsByCase(@PathVariable("case_id") long caseID) {
+        return documentService.getAllDocumentsByCase(caseID);
     }
 
-    @GetMapping("/case/documents/attachments")
-    public List<Attachment> getAttachments(@RequestParam("id") long documentID) {
-        Optional<Document> foundDocument = documentRepository.getByID(documentID);
-        if(foundDocument.isPresent()) {
-            return foundDocument.get().getAttachments();
+    @GetMapping("/attachments/{document_id}")
+    public List<Document> getAttachmentsByDocument(@PathVariable("document_id") long documentID) {
+        return documentService.getAllAttachmentsByDocument(documentID);
+    }
+
+    @GetMapping("/download/{document_id}")
+    public ResponseEntity<DownloadDocumentResponse> downloadDocument(@PathVariable("document_id") long documentID) {
+        try {
+            byte[] downloadData = documentService.downloadDocument(documentID);
+            return ResponseEntity.status(HttpStatus.OK).body(new DownloadDocumentResponse(downloadData));
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
         }
-        return new ArrayList<>();
     }
 
 }
