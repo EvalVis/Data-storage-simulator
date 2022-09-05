@@ -1,4 +1,4 @@
-package ev.projects;
+package ev.projects.models;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

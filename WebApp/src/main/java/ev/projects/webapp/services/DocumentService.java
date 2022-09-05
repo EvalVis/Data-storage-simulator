@@ -1,11 +1,10 @@
 package ev.projects.webapp.services;
 
-import ev.projects.Document;
+import ev.projects.models.Document;
 import ev.projects.webapp.repositories.IDocumentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.io.InputStream;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;

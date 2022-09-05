@@ -1,11 +1,10 @@
 package ev.projects.webapp.repositories;
 
-import ev.projects.Document;
+import ev.projects.models.Document;
 import org.springframework.beans.factory.config.ConfigurableBeanFactory;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Repository;
 
-import javax.print.Doc;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;

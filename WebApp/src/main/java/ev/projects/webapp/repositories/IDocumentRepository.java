@@ -1,6 +1,6 @@
 package ev.projects.webapp.repositories;
 
-import ev.projects.Document;
+import ev.projects.models.Document;
 import java.util.List;
 import java.util.Optional;
 

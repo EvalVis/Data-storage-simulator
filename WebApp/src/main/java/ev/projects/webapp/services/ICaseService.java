@@ -1,6 +1,6 @@
 package ev.projects.webapp.services;
 
-import ev.projects.Case;
+import ev.projects.models.Case;
 
 import java.util.List;
 import java.util.Optional;

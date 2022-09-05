@@ -1,6 +1,6 @@
 package ev.projects.webapp.repositories;
 
-import ev.projects.Case;
+import ev.projects.models.Case;
 import org.springframework.beans.factory.config.ConfigurableBeanFactory;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Repository;

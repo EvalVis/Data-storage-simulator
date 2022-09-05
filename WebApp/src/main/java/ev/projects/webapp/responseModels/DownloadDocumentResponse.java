@@ -1,4 +1,4 @@
-package ev.projects.webapp.response_models;
+package ev.projects.webapp.responseModels;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

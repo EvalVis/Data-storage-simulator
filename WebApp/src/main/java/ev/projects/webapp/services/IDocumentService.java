@@ -1,6 +1,6 @@
 package ev.projects.webapp.services;
 
-import ev.projects.Document;
+import ev.projects.models.Document;
 
 import java.util.List;
 

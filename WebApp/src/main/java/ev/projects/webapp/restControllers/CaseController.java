@@ -1,6 +1,6 @@
-package ev.projects.webapp.rest_controllers;
+package ev.projects.webapp.restControllers;
 
-import ev.projects.Case;
+import ev.projects.models.Case;
 import ev.projects.webapp.services.ICaseService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
