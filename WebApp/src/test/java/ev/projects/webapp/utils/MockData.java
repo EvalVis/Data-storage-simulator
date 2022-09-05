@@ -3,6 +3,7 @@ package ev.projects.webapp.utils;
 import ev.projects.models.Case;
 import ev.projects.models.Document;
 
+import java.nio.charset.StandardCharsets;
 import java.util.*;
 
 public class MockData {
@@ -17,7 +18,7 @@ public class MockData {
         Document englishLesson1 = new Document(1, "English lesson 1", "First lesson",
                 "data/image.jpg", 139_191, "jpg");
         Document mathLesson1 = new Document(1, "Math lesson 1", "Hard lesson",
-                "data/image.jpg", 139_191, "jpg");
+                "data/homework.txt", 139_191, "txt");
         HashMap<Long, List<Document>> documents = new HashMap<>();
         documents.put(1L, List.of(englishLesson1));
         documents.put(2L, List.of(mathLesson1));
