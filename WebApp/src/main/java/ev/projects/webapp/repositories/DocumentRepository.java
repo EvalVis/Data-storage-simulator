@@ -1,8 +1,6 @@
 package ev.projects.webapp.repositories;
 
 import ev.projects.models.Document;
-import org.springframework.beans.factory.config.ConfigurableBeanFactory;
-import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
@@ -10,11 +8,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
 
-@Scope(value = ConfigurableBeanFactory.SCOPE_SINGLETON)
 @Repository
 public class DocumentRepository implements IDocumentRepository {
 
-    private HashMap<Long, List<Document>> documents = new HashMap<>();
+    private static HashMap<Long, List<Document>> documents = new HashMap<>();
     private HashMap<Long, List<Document>> attachments = new HashMap<>();
 
     @Override
