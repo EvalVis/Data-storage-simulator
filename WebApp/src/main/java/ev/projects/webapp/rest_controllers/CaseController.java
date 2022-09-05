@@ -2,7 +2,6 @@ package ev.projects.webapp.rest_controllers;
 
 import ev.projects.Case;
 import ev.projects.webapp.repositories.CaseRepository;
-import ev.projects.webapp.repositories.EntityRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
