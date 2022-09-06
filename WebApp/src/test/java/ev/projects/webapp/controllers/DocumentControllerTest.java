@@ -4,6 +4,7 @@ import ev.projects.models.Document;
 import ev.projects.repositories.DocumentRepository;
 import ev.projects.webapp.WebAppApplication;
 import ev.projects.webapp.responseModels.DownloadDocumentResponse;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
@@ -35,19 +36,25 @@ public class DocumentControllerTest {
     @Value("${login.password}")
     private String password;
 
+    Field privateField = DocumentRepository.class.getDeclaredField("documents");
+
+    public DocumentControllerTest() throws NoSuchFieldException {
+    }
+
     @BeforeEach
     public void start() {
+        privateField.setAccessible(true);
         baseUrl = "http://localhost:" + port;
     }
 
     @ParameterizedTest
     @CsvSource({"1,1,English Lesson 1,First lesson,data/image.jpg", "2,2,Math lesson 1,Hard lesson,data/homework.txt"})
     public void getDocumentsByCaseTest(long caseID, long documentID, String title,
-                                       String description, String filePath) throws NoSuchFieldException, IllegalAccessException {
+                                       String description, String filePath) throws IllegalAccessException {
         HashMap<Long, List<Document>> documents = new HashMap<>();
         documents.put(caseID, List.of(new Document(documentID, title,
                 description, filePath, 0, "")));
-        addDocuments(documents);
+        privateField.set(null, documents);
         String url = baseUrl + "/api/documents/" + caseID + "/";
         TestRestTemplate restTemplate = new TestRestTemplate().withBasicAuth(username, password);
         ResponseEntity<List<Document>> documentsResponse = restTemplate.exchange(url, HttpMethod.GET,
@@ -64,11 +71,12 @@ public class DocumentControllerTest {
 
     @ParameterizedTest
     @CsvSource({"1,/data/image.jpg,139_191", "2,/data/homework.txt,16"})
-    public void downloadDocumentTest(long documentID, String filePath, long fileSize) throws NoSuchFieldException, IllegalAccessException, IOException {
+    public void downloadDocumentTest(long documentID, String filePath, long fileSize)
+            throws IllegalAccessException, IOException {
         HashMap<Long, List<Document>> documents = new HashMap<>();
         documents.put(1L, List.of(new Document(documentID, "",
                 "", filePath, 0, "")));
-        addDocuments(documents);
+        privateField.set(null, documents);
         String url = baseUrl + "/api/documents/download/" + documentID + "/";
         TestRestTemplate restTemplate = new TestRestTemplate().withBasicAuth(username, password);
         ResponseEntity<DownloadDocumentResponse> downloadResponse = restTemplate.exchange(url, HttpMethod.GET,
@@ -81,10 +89,10 @@ public class DocumentControllerTest {
                 Objects.requireNonNull(getClass().getResourceAsStream(filePath)).readAllBytes());
     }
 
-    private void addDocuments(HashMap<Long, List<Document>> documents) throws NoSuchFieldException, IllegalAccessException {
-        Field privateField = DocumentRepository.class.getDeclaredField("documents");
-        privateField.setAccessible(true);
-        privateField.set(null, documents);
+    @AfterEach
+    public void cleanUp() throws NoSuchFieldException, IllegalAccessException {
+        privateField.setAccessible(false);
+        privateField.set(null, new HashMap<>());
     }
 
 
