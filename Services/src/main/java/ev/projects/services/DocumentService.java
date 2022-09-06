@@ -34,13 +34,9 @@ public class DocumentService implements IDocumentService {
 
     @Override
     public byte[] getDocumentFile(long ID) throws Exception {
-        Optional<Document> document = documentRepository.getById(ID);
-        if(document.isPresent()) {
-            String filePath = document.get().getFilePath();
-            if(filePath != null) {
-                return Objects.requireNonNull(getClass().getResourceAsStream(filePath)).readAllBytes();
-            }
-        }
-        return new byte[0];
+        String filePath = documentRepository.getById(ID).map(Document::getFilePath).orElse(null);
+        return filePath != null ?
+                Objects.requireNonNull(getClass().getResourceAsStream(filePath)).readAllBytes() :
+                new byte[0];
     }
 }
