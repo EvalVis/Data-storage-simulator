@@ -37,7 +37,7 @@ public class DocumentController {
     @GetMapping("/download/{document_id}")
     public ResponseEntity<DownloadDocumentResponse> downloadDocument(@PathVariable("document_id") long documentID) {
         try {
-            byte[] downloadData = documentService.downloadDocument(documentID);
+            byte[] downloadData = documentService.getDocumentFile(documentID);
             return ResponseEntity.status(HttpStatus.OK).body(new DownloadDocumentResponse(downloadData));
         } catch (Exception e) {
             e.printStackTrace();

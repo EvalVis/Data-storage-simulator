@@ -33,7 +33,7 @@ public class DocumentService implements IDocumentService {
     }
 
     @Override
-    public byte[] downloadDocument(long ID) throws Exception {
+    public byte[] getDocumentFile(long ID) throws Exception {
         Optional<Document> document = documentRepository.getById(ID);
         if(document.isPresent()) {
             String filePath = document.get().getFilePath();

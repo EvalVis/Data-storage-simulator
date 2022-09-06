@@ -7,6 +7,6 @@ import java.util.List;
 public interface IDocumentService {
     List<Document> getAllDocumentsByCase(long caseID);
     List<Document> getAllAttachmentsByDocument(long documentID);
-    byte[] downloadDocument(long ID) throws Exception;
+    byte[] getDocumentFile(long ID) throws Exception;
 
 }
