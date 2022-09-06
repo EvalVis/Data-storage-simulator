@@ -91,8 +91,8 @@ public class DocumentControllerTest {
 
     @AfterEach
     public void cleanUp() throws NoSuchFieldException, IllegalAccessException {
-        privateField.setAccessible(false);
         privateField.set(null, new HashMap<>());
+        privateField.setAccessible(false);
     }
 
 

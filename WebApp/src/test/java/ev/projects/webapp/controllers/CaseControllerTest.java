@@ -86,8 +86,8 @@ public class CaseControllerTest {
 
     @AfterEach
     public void cleanUp() throws IllegalAccessException {
-        privateField.setAccessible(false);
         privateField.set(null, new ArrayList<>());
+        privateField.setAccessible(false);
     }
 
 }
