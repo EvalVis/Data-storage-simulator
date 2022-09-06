@@ -37,6 +37,6 @@ public class DocumentService implements IDocumentService {
         String filePath = documentRepository.getById(ID).map(Document::getFilePath).orElse(null);
         return filePath != null ?
                 Objects.requireNonNull(getClass().getResourceAsStream(filePath)).readAllBytes() :
-                new byte[0];
+                null;
     }
 }
