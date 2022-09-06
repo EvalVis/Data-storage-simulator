@@ -1,9 +1,8 @@
 package ev.projects.webapp.controllers;
 
-import ev.projects.models.Case;
 import ev.projects.models.Document;
+import ev.projects.repositories.DocumentRepository;
 import ev.projects.webapp.WebAppApplication;
-import ev.projects.webapp.repositories.DocumentRepository;
 import ev.projects.webapp.responseModels.DownloadDocumentResponse;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -18,8 +17,6 @@ import org.springframework.http.ResponseEntity;
 
 import java.io.IOException;
 import java.lang.reflect.Field;
-import java.nio.charset.StandardCharsets;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Objects;

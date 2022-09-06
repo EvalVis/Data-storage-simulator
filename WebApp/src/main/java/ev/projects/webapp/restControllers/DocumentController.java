@@ -1,8 +1,8 @@
 package ev.projects.webapp.restControllers;
 
 import ev.projects.models.Document;
+import ev.projects.services.IDocumentService;
 import ev.projects.webapp.responseModels.DownloadDocumentResponse;
-import ev.projects.webapp.services.IDocumentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

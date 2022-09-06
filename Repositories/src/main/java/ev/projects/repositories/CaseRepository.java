@@ -1,4 +1,4 @@
-package ev.projects.webapp.repositories;
+package ev.projects.repositories;
 
 import ev.projects.models.Case;
 import org.springframework.stereotype.Repository;

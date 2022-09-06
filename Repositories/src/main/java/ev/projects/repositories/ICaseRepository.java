@@ -1,13 +1,13 @@
-package ev.projects.webapp.services;
+package ev.projects.repositories;
 
 import ev.projects.models.Case;
 
 import java.util.List;
 import java.util.Optional;
 
-public interface ICaseService {
+public interface ICaseRepository {
 
     List<Case> getAll();
-    Optional<Case> getAllById(Long ID);
+    Optional<Case> getById(long ID);
 
 }

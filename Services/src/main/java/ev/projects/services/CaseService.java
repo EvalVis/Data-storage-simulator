@@ -1,14 +1,16 @@
-package ev.projects.webapp.services;
+package ev.projects.services;
 
 import ev.projects.models.Case;
-import ev.projects.webapp.repositories.ICaseRepository;
+import ev.projects.repositories.ICaseRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
 
 @Service
+@ComponentScan({"ev.projects.repositories"})
 public class CaseService implements ICaseService {
 
     private ICaseRepository caseRepository;

@@ -1,8 +1,8 @@
 package ev.projects.webapp.controllers;
 
 import ev.projects.models.Case;
+import ev.projects.repositories.CaseRepository;
 import ev.projects.webapp.WebAppApplication;
-import ev.projects.webapp.repositories.CaseRepository;
 import ev.projects.webapp.utils.MockData;;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

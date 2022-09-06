@@ -6,6 +6,8 @@
     <modules>
         <module>Models</module>
         <module>WebApp</module>
+        <module>Repositories</module>
+        <module>Services</module>
     </modules>
     <parent>
         <groupId>org.springframework.boot</groupId>

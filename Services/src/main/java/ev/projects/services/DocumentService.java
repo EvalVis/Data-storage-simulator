@@ -1,8 +1,9 @@
-package ev.projects.webapp.services;
+package ev.projects.services;
 
 import ev.projects.models.Document;
-import ev.projects.webapp.repositories.IDocumentRepository;
+import ev.projects.repositories.IDocumentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -10,6 +11,7 @@ import java.util.Objects;
 import java.util.Optional;
 
 @Service
+@ComponentScan({"ev.projects.repositories"})
 public class DocumentService implements IDocumentService {
 
     private IDocumentRepository documentRepository;
