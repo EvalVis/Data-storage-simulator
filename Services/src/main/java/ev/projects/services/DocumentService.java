@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.stereotype.Service;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -34,9 +35,18 @@ public class DocumentService implements IDocumentService {
 
     @Override
     public byte[] getDocumentFile(long ID) throws Exception {
-        String filePath = documentRepository.getById(ID).map(Document::getFilePath).orElse(null);
-        return filePath != null ?
-                Objects.requireNonNull(getClass().getResourceAsStream(filePath)).readAllBytes() :
-                null;
+        return documentRepository.getById(ID).
+                map(Document::getFilePath).
+                map(this::readFileFromStream).
+                orElse(null);
     }
+
+    private byte[] readFileFromStream(String filePath) {
+        try {
+            return Objects.requireNonNull(getClass().getResourceAsStream(filePath)).readAllBytes();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
 }
