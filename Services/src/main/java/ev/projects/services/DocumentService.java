@@ -33,7 +33,7 @@ public class DocumentService implements IDocumentService {
     }
 
     @Override
-    public byte[] getDocumentFile(long ID) throws Exception {
+    public byte[] getDocumentFile(long ID) {
         return documentRepository.getById(ID).
                 map(Document::getFilePath).
                 map(this::readFileFromStream).
