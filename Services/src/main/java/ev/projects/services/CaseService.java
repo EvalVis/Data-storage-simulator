@@ -10,7 +10,6 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-@ComponentScan({"ev.projects.repositories"})
 public class CaseService implements ICaseService {
 
     private ICaseRepository caseRepository;

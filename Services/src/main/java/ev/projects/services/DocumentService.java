@@ -12,7 +12,6 @@ import java.util.Objects;
 import java.util.Optional;
 
 @Service
-@ComponentScan({"ev.projects.repositories"})
 public class DocumentService implements IDocumentService {
 
     private IDocumentRepository documentRepository;
