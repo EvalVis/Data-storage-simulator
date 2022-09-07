@@ -5,7 +5,6 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.ComponentScan;
 
 @SpringBootApplication
-@ComponentScan({"ev.projects.services", "ev.projects.webapp"})
 public class WebAppApplication {
 
     public static void main(String[] args) {

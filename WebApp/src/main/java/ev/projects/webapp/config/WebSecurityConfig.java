@@ -1,4 +1,4 @@
-package ev.projects.webapp;
+package ev.projects.webapp.config;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
