@@ -24,17 +24,17 @@ public class DocumentService implements IDocumentService {
 
     @Override
     public List<Document> getAllDocumentsByCase(long caseID) {
-        return documentRepository.getAllDocumentsByCase(caseID);
+        return documentRepository.findDocumentsByOwningCase_ID(caseID);
     }
 
     @Override
     public List<Document> getAllAttachmentsByDocument(long documentID) {
-        return documentRepository.getAllAttachmentsByDocument(documentID);
+        return documentRepository.findDocumentsByOwningDocument_ID(documentID);
     }
 
     @Override
     public byte[] getDocumentFile(long ID) {
-        return documentRepository.getById(ID).
+        return documentRepository.findById(ID).
                 map(Document::getFilePath).
                 map(this::readFileFromStream).
                 orElse(null);

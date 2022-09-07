@@ -21,11 +21,11 @@ public class CaseService implements ICaseService {
 
     @Override
     public List<Case> getAll() {
-        return caseRepository.getAll();
+        return caseRepository.findAll();
     }
 
     @Override
     public Optional<Case> getAllById(Long ID) {
-        return caseRepository.getById(ID);
+        return caseRepository.findById(ID);
     }
 }

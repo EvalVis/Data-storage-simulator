@@ -1,13 +1,8 @@
 package ev.projects.repositories;
 
 import ev.projects.models.Case;
+import org.springframework.data.jpa.repository.JpaRepository;
 
-import java.util.List;
-import java.util.Optional;
-
-public interface ICaseRepository {
-
-    List<Case> getAll();
-    Optional<Case> getById(long ID);
+public interface ICaseRepository extends JpaRepository<Case, Long> {
 
 }

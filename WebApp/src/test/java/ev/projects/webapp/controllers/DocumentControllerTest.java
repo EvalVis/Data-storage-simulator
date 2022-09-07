@@ -1,7 +1,6 @@
 package ev.projects.webapp.controllers;
 
 import ev.projects.models.Document;
-import ev.projects.repositories.DocumentRepository;
 import ev.projects.webapp.WebAppApplication;
 import ev.projects.webapp.responseModels.DownloadDocumentResponse;
 import org.junit.jupiter.api.AfterEach;
