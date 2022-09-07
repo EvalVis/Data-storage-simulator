@@ -25,7 +25,7 @@ public class CaseService implements ICaseService {
     }
 
     @Override
-    public Optional<Case> getAllById(Long ID) {
+    public Optional<Case> getById(Long ID) {
         return caseRepository.findById(ID);
     }
 
