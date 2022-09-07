@@ -2,6 +2,7 @@ package ev.projects.webapp.restControllers;
 
 import ev.projects.models.Document;
 import ev.projects.services.IDocumentService;
+import ev.projects.webapp.requestModels.UploadDocumentRequest;
 import ev.projects.webapp.responseModels.DownloadDocumentResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -45,6 +46,17 @@ public class DocumentController {
     @PostMapping("/")
     public void createDocument(@RequestBody Document document) {
         documentService.add(document);
+    }
+
+    @PatchMapping("/")
+    public HttpStatus uploadDocument(@RequestBody UploadDocumentRequest uploadDocumentRequest) {
+        try {
+            documentService.uploadDocument(uploadDocumentRequest.getDocumentID(), uploadDocumentRequest.getFile());
+        } catch(Exception e) {
+            e.printStackTrace();
+            return HttpStatus.INTERNAL_SERVER_ERROR;
+        }
+        return HttpStatus.OK;
     }
 
     @PutMapping("/")
