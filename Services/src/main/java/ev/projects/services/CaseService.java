@@ -28,4 +28,20 @@ public class CaseService implements ICaseService {
     public Optional<Case> getAllById(Long ID) {
         return caseRepository.findById(ID);
     }
+
+    @Override
+    public void add(Case aCase) {
+        caseRepository.save(aCase);
+    }
+
+    @Override
+    public void update(Case aCase) {
+        caseRepository.save(aCase);
+    }
+
+    @Override
+    public void removeById(long ID) {
+        caseRepository.deleteById(ID);
+    }
+
 }
