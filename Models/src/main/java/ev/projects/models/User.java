@@ -19,7 +19,7 @@ public class User implements UserDetails {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long ID;
     private String name;
-    private String hashedPassword;
+    private String password;
     @OneToMany(cascade = CascadeType.ALL,
             fetch = FetchType.LAZY, mappedBy = "creatorUser")
     private List<Case> cases;
@@ -31,7 +31,7 @@ public class User implements UserDetails {
 
     @Override
     public String getPassword() {
-        return hashedPassword;
+        return password;
     }
 
     @Override

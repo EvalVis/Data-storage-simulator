@@ -1,7 +1,7 @@
 package ev.projects.webapp.restControllers;
 
+import ev.projects.models.User;
 import ev.projects.services.IUserService;
-import ev.projects.webapp.requestModels.UserRegisterRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -24,12 +24,12 @@ public class UserController {
     }
 
     @PostMapping("/register")
-    public HttpStatus registerUser(@RequestBody UserRegisterRequest userRegisterRequest) {
-        String username = userRegisterRequest.getUsername();
+    public HttpStatus registerUser(@RequestBody User user) {
+        String username = user.getUsername();
         if(userService.usernameExists(username)) {
             return HttpStatus.CONFLICT;
         }
-        userService.add(userRegisterRequest.convertToUser(passwordEncoder.encode(userRegisterRequest.getPassword())));
+        userService.add(user);
         return HttpStatus.OK;
     }
 }
