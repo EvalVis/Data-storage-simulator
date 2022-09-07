@@ -42,7 +42,7 @@ public class DocumentService implements IDocumentService {
         return documentRepository.findDocumentsByOwningDocument_ID(documentID);
     }
 
-    @Value("${document_storage.location}")
+    @Value("document_storage.location")
     private String storageDirPath;
     @Override
     public void uploadDocument(long documentID, MultipartFile file) {
