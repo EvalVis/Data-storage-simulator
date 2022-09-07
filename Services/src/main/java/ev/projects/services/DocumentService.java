@@ -14,6 +14,7 @@ import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 
 @Service
 public class DocumentService implements IDocumentService {
@@ -25,6 +26,11 @@ public class DocumentService implements IDocumentService {
         this.documentRepository = documentRepository;
     }
 
+
+    @Override
+    public Optional<Document> getById(long ID) {
+        return documentRepository.findById(ID);
+    }
 
     @Override
     public List<Document> getAllDocumentsByCase(long caseID) {
