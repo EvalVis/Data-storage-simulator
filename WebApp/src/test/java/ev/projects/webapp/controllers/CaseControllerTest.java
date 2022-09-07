@@ -2,7 +2,6 @@ package ev.projects.webapp.controllers;
 
 import ev.projects.models.Case;
 import ev.projects.webapp.WebAppApplication;
-import ev.projects.webapp.utils.MockData;;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -15,8 +14,6 @@ import org.springframework.boot.web.server.LocalServerPort;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
-
-import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -36,21 +33,13 @@ public class CaseControllerTest {
     @Value("${login.password}")
     private String password;
 
-    Field privateField = CaseRepository.class.getDeclaredField("cases");
-
-    public CaseControllerTest() throws NoSuchFieldException {
-    }
-
     @BeforeEach
     public void start() {
-        privateField.setAccessible(true);
         baseUrl = "http://localhost:" + port;
     }
 
     @Test
-    public void getCasesTest() throws IllegalAccessException {
-        List<Case> cases = MockData.generateCases();
-        privateField.set(null, cases);
+    public void getCasesTest() {
         String url = baseUrl + "/api/cases/";
         TestRestTemplate restTemplate = new TestRestTemplate().withBasicAuth(username, password);
         ResponseEntity<List<Case>> casesResponse = restTemplate.exchange(url, HttpMethod.GET,
@@ -66,9 +55,7 @@ public class CaseControllerTest {
 
     @ParameterizedTest
     @CsvSource({"1,English,Smith", "2,Math,Mike"})
-    public void getCaseTest(long ID, String title, String creatorUser) throws IllegalAccessException {
-        Case aCase = new Case(ID, title, new Date(), creatorUser);
-        privateField.set(null, List.of(aCase));
+    public void getCaseTest(long ID, String title, String creatorUser) {
         String url = baseUrl + "/api/cases/" + ID + "/";
         TestRestTemplate restTemplate = new TestRestTemplate().withBasicAuth(username, password);
         ResponseEntity<Optional<Case>> caseResponse = restTemplate.exchange(url, HttpMethod.GET,
@@ -77,16 +64,14 @@ public class CaseControllerTest {
         assertNotNull(responseCase);
         assertTrue(responseCase.isPresent());
         Case rCase = responseCase.get();
-        assertEquals(aCase, rCase);
+        //assertEquals(aCase, rCase);
         assertEquals(ID, rCase.getID());
         assertEquals(title, rCase.getTitle());
         assertEquals(creatorUser, rCase.getCreatorUser());
     }
 
     @AfterEach
-    public void cleanUp() throws IllegalAccessException {
-        privateField.set(null, new ArrayList<>());
-        privateField.setAccessible(false);
+    public void cleanUp() {
     }
 
 }

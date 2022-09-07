@@ -35,25 +35,15 @@ public class DocumentControllerTest {
     @Value("${login.password}")
     private String password;
 
-    Field privateField = DocumentRepository.class.getDeclaredField("documents");
-
-    public DocumentControllerTest() throws NoSuchFieldException {
-    }
-
     @BeforeEach
     public void start() {
-        privateField.setAccessible(true);
         baseUrl = "http://localhost:" + port;
     }
 
     @ParameterizedTest
     @CsvSource({"1,1,English Lesson 1,First lesson,data/image.jpg", "2,2,Math lesson 1,Hard lesson,data/homework.txt"})
     public void getDocumentsByCaseTest(long caseID, long documentID, String title,
-                                       String description, String filePath) throws IllegalAccessException {
-        HashMap<Long, List<Document>> documents = new HashMap<>();
-        documents.put(caseID, List.of(new Document(documentID, title,
-                description, filePath, 0, "")));
-        privateField.set(null, documents);
+                                       String description, String filePath) {
         String url = baseUrl + "/api/documents/" + caseID + "/";
         TestRestTemplate restTemplate = new TestRestTemplate().withBasicAuth(username, password);
         ResponseEntity<List<Document>> documentsResponse = restTemplate.exchange(url, HttpMethod.GET,
@@ -71,11 +61,7 @@ public class DocumentControllerTest {
     @ParameterizedTest
     @CsvSource({"1,/data/image.jpg,139191", "2,/data/homework.txt,16"})
     public void downloadDocumentTest(long documentID, String filePath, long fileSize)
-            throws IllegalAccessException, IOException {
-        HashMap<Long, List<Document>> documents = new HashMap<>();
-        documents.put(1L, List.of(new Document(documentID, "",
-                "", filePath, 0, "")));
-        privateField.set(null, documents);
+            throws IOException {
         String url = baseUrl + "/api/documents/download/" + documentID + "/";
         TestRestTemplate restTemplate = new TestRestTemplate().withBasicAuth(username, password);
         ResponseEntity<DownloadDocumentResponse> downloadResponse = restTemplate.exchange(url, HttpMethod.GET,
@@ -89,9 +75,7 @@ public class DocumentControllerTest {
     }
 
     @AfterEach
-    public void cleanUp() throws NoSuchFieldException, IllegalAccessException {
-        privateField.set(null, new HashMap<>());
-        privateField.setAccessible(false);
+    public void cleanUp() {
     }
 
 
