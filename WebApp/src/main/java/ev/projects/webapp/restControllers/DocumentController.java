@@ -2,6 +2,7 @@ package ev.projects.webapp.restControllers;
 
 import ev.projects.models.Document;
 import ev.projects.services.IDocumentService;
+import ev.projects.webapp.requestModels.DocumentRequest;
 import ev.projects.webapp.requestModels.UploadDocumentRequest;
 import ev.projects.webapp.responseModels.DownloadDocumentResponse;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -44,8 +45,8 @@ public class DocumentController {
     }
 
     @PostMapping("/")
-    public void createDocument(@RequestBody Document document) {
-        documentService.add(document);
+    public void createDocument(@RequestBody DocumentRequest documentRequest) {
+        documentService.add(documentRequest.convertToDocument());
     }
 
     @PatchMapping("/")
@@ -59,9 +60,12 @@ public class DocumentController {
         return HttpStatus.OK;
     }
 
-    @PutMapping("/")
-    public void updateDocument(@RequestBody Document document) {
-        documentService.update(document);
+    @PutMapping("/{id}")
+    public HttpStatus updateDocument(@RequestBody DocumentRequest documentRequest, @PathVariable("id") long ID) {
+        return documentService.getById(ID).map(d -> {
+            documentService.update(documentRequest.convertToDocument(d));
+            return HttpStatus.OK;
+        }).orElse(HttpStatus.NOT_FOUND);
     }
 
     @DeleteMapping("/{id}")
