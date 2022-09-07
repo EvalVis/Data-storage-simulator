@@ -29,4 +29,19 @@ public class CaseController {
         return caseService.getAllById(ID);
     }
 
+    @PostMapping("/")
+    public void createCase(@RequestBody Case aCase) {
+        caseService.add(aCase);
+    }
+
+    @PutMapping("/")
+    public void updateCase(@RequestBody Case aCase) {
+        caseService.update(aCase);
+    }
+
+    @DeleteMapping("/{id}")
+    public void deleteCase(@PathVariable("id") long ID) {
+        caseService.removeById(ID);
+    }
+
 }

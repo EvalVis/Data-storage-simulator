@@ -6,10 +6,7 @@ import ev.projects.webapp.responseModels.DownloadDocumentResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -43,6 +40,21 @@ public class DocumentController {
             e.printStackTrace();
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
         }
+    }
+
+    @PostMapping("/")
+    public void createDocument(@RequestBody Document document) {
+        documentService.add(document);
+    }
+
+    @PutMapping("/")
+    public void updateDocument(@RequestBody Document document) {
+        documentService.update(document);
+    }
+
+    @DeleteMapping("/{id}")
+    public void deleteDocument(@PathVariable("id") long ID) {
+        documentService.removeById(ID);
     }
 
 }
