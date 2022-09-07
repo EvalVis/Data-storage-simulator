@@ -16,6 +16,7 @@ public class Case {
 
     private long ID;
     private String title;
+    private String description;
     private Date creationDate;
     private String creatorUser;
 
