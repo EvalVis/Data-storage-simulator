@@ -1,6 +1,7 @@
 package ev.projects.models;
 
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -13,6 +14,7 @@ import java.util.List;
 @Setter
 @Entity
 @Table(name = "users") // User is reserved by db.
+@NoArgsConstructor
 public class User implements UserDetails {
 
     @Id
@@ -23,6 +25,11 @@ public class User implements UserDetails {
     @OneToMany(cascade = CascadeType.ALL,
             fetch = FetchType.LAZY, mappedBy = "creatorUser")
     private List<Case> cases;
+
+    public User(String name, String password) {
+        this.name = name;
+        this.password = password;
+    }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
