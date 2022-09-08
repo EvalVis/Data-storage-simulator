@@ -1,5 +1,6 @@
 package ev.projects.services;
 
+import ev.projects.models.Case;
 import ev.projects.models.Document;
 import ev.projects.repositories.IDocumentRepository;
 import org.apache.commons.io.FilenameUtils;
@@ -91,9 +92,16 @@ public class DocumentService implements IDocumentService {
 
     @Override
     public boolean add(Document document) {
-        return documentRepository.findById(document.getOwningDocument().getID()).
-                filter(parent -> parent.getOwningDocument() == null && parent
-                        .getOwningCase() != null).map(p -> documentRepository.save(document)).isPresent();
+        return Optional.ofNullable(document.getOwningCase()).
+                map(c -> documentRepository.save(document)).isPresent()
+                ||
+                Optional.ofNullable(document.getOwningDocument()).
+                        map(d -> documentRepository.findById(d.getID())
+                                .filter(parent -> parent.getOwningDocument() == null
+                                        && parent.getOwningCase() != null)
+                                .map(p -> documentRepository.save(document)).
+                                isPresent())
+                        .orElse(false);
     }
 
     @Override
