@@ -1,5 +1,6 @@
 package ev.projects.models;
 
+import com.fasterxml.jackson.annotation.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -8,12 +9,16 @@ import lombok.Setter;
 import javax.persistence.*;
 import java.util.List;
 
+@JsonIdentityInfo(
+        generator = ObjectIdGenerators.PropertyGenerator.class,
+        property = "id")
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
 @Table(name = "document")
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class Document {
 
     @Id
