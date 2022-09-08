@@ -13,7 +13,7 @@ public interface IDocumentService {
     List<Document> getAllAttachmentsByDocument(long documentID);
     byte[] getDocumentFile(long ID) throws Exception;
     void uploadDocument(long documentID, MultipartFile file);
-    void add(Document document);
+    boolean add(Document document);
     boolean update(Document document);
     void removeById(long ID);
 

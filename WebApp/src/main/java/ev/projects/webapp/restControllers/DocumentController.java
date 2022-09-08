@@ -44,8 +44,8 @@ public class DocumentController {
     }
 
     @PostMapping("/")
-    public void createDocument(@RequestBody Document document) {
-        documentService.add(document);
+    public HttpStatus createDocument(@RequestBody Document document) {
+        return documentService.add(document) ? HttpStatus.OK : HttpStatus.CONFLICT;
     }
 
     @PatchMapping("/")

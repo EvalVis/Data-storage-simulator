@@ -90,8 +90,10 @@ public class DocumentService implements IDocumentService {
     }
 
     @Override
-    public void add(Document document) {
-        documentRepository.save(document);
+    public boolean add(Document document) {
+        return documentRepository.findById(document.getOwningDocument().getID()).
+                filter(parent -> parent.getOwningDocument() == null && parent
+                        .getOwningCase() != null).map(p -> documentRepository.save(document)).isPresent();
     }
 
     @Override
