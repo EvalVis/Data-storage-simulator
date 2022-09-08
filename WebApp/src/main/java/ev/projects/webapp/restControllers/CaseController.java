@@ -2,7 +2,6 @@ package ev.projects.webapp.restControllers;
 
 import ev.projects.models.Case;
 import ev.projects.services.ICaseService;
-import ev.projects.webapp.requestModels.CaseRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -32,16 +31,14 @@ public class CaseController {
     }
 
     @PostMapping("/")
-    public void createCase(@RequestBody CaseRequest caseRequest) {
-        caseService.add(caseRequest.convertToCase());
+    public void createCase(@RequestBody Case aCase) {
+        caseService.add(aCase);
     }
 
     @PutMapping("/{id}")
-    public HttpStatus updateCase(@RequestBody CaseRequest caseRequest, @PathVariable("id") long ID) {
-        return caseService.getById(ID).map(c -> {
-            caseService.update(caseRequest.convertToCase(c));
-            return HttpStatus.OK;
-        }).orElse(HttpStatus.NOT_FOUND);
+    public HttpStatus updateCase(@RequestBody Case aCase, @PathVariable("id") long ID) {
+        aCase.setID(ID);
+        return caseService.update(aCase) ? HttpStatus.OK : HttpStatus.NOT_FOUND;
     }
 
     @DeleteMapping("/{id}")

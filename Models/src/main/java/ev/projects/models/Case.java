@@ -31,6 +31,11 @@ public class Case {
     fetch = FetchType.LAZY, mappedBy = "owningCase")
     private List<Document> documents;
 
+    public void copy(Case aCase) {
+        setTitle(aCase.getTitle());
+        setDescription(aCase.getDescription());
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
