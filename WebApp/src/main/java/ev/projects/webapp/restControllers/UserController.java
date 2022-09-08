@@ -14,12 +14,10 @@ import org.springframework.web.bind.annotation.*;
 public class UserController {
 
     private IUserService userService;
-    private PasswordEncoder passwordEncoder;
 
     @Autowired
-    public UserController(IUserService userService, PasswordEncoder passwordEncoder) {
+    public UserController(IUserService userService) {
         this.userService = userService;
-        this.passwordEncoder = passwordEncoder;
     }
 
     @PostMapping("/")

@@ -8,6 +8,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -38,6 +39,7 @@ public class CaseService implements ICaseService {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         userService.getByUsername(auth.getName()).map(user -> {
             aCase.setCreatorUser(user);
+            aCase.setCreationDate(new Date());
             caseRepository.save(aCase);
             return null;
         });
