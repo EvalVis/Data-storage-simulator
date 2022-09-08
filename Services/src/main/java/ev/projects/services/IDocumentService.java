@@ -14,7 +14,7 @@ public interface IDocumentService {
     byte[] getDocumentFile(long ID) throws Exception;
     void uploadDocument(long documentID, MultipartFile file);
     void add(Document document);
-    void update(Document document);
+    boolean update(Document document);
     void removeById(long ID);
 
 }

@@ -35,4 +35,9 @@ public class Document {
     mappedBy = "owningDocument")
     private List<Document> attachments;
 
+    public void copy(Document document) {
+        setTitle(document.getTitle());
+        setDescription(document.getDescription());
+    }
+
 }
