@@ -22,11 +22,11 @@ public class UserController {
 
     @PostMapping("/")
     public HttpStatus registerUser(@RequestBody User user) {
-        String username = user.getUsername();
-        if(userService.usernameExists(username)) {
+        try {
+            userService.add(user);
+        } catch(Exception e) {
             return HttpStatus.CONFLICT;
         }
-        userService.add(user);
         return HttpStatus.OK;
     }
 
