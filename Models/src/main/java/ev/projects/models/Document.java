@@ -9,7 +9,7 @@ import lombok.Setter;
 import javax.persistence.*;
 import java.util.List;
 
-@JsonIdentityInfo(
+@JsonIdentityInfo(scope = Document.class,
         generator = ObjectIdGenerators.PropertyGenerator.class,
         property = "id")
 @Getter

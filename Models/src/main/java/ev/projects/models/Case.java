@@ -11,7 +11,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 
-@JsonIdentityInfo(
+@JsonIdentityInfo(scope = Case.class,
         generator = ObjectIdGenerators.PropertyGenerator.class,
         property = "id")
 @Getter

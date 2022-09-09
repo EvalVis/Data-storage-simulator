@@ -13,7 +13,7 @@ import javax.persistence.*;
 import java.util.Collection;
 import java.util.List;
 
-@JsonIdentityInfo(
+@JsonIdentityInfo(scope = User.class,
         generator = ObjectIdGenerators.PropertyGenerator.class,
         property = "id")
 @Getter
