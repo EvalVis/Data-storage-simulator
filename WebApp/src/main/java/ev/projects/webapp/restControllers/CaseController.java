@@ -4,6 +4,7 @@ import ev.projects.models.Case;
 import ev.projects.services.ICaseService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -36,9 +37,10 @@ public class CaseController {
     }
 
     @PutMapping("/{id}")
-    public HttpStatus updateCase(@RequestBody Case aCase, @PathVariable("id") long ID) {
+    public ResponseEntity<Void> updateCase(@RequestBody Case aCase, @PathVariable("id") long ID) {
         aCase.setID(ID);
-        return caseService.update(aCase) ? HttpStatus.OK : HttpStatus.NOT_FOUND;
+        return caseService.update(aCase) ? new ResponseEntity<>(null, HttpStatus.OK) :
+        new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
     }
 
     @DeleteMapping("/{id}")

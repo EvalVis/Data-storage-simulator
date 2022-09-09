@@ -44,25 +44,27 @@ public class DocumentController {
     }
 
     @PostMapping("/")
-    public HttpStatus createDocument(@RequestBody Document document) {
-        return documentService.add(document) ? HttpStatus.OK : HttpStatus.CONFLICT;
+    public ResponseEntity<Void> createDocument(@RequestBody Document document) {
+        return documentService.add(document) ? new ResponseEntity<>(null, HttpStatus.OK) :
+                new ResponseEntity<>(HttpStatus.CONFLICT);
     }
 
     @PatchMapping("/")
-    public HttpStatus uploadDocument(@RequestBody UploadDocumentRequest uploadDocumentRequest) {
+    public ResponseEntity<Void> uploadDocument(@RequestBody UploadDocumentRequest uploadDocumentRequest) {
         try {
             documentService.uploadDocument(uploadDocumentRequest.getDocumentID(), uploadDocumentRequest.getFile());
         } catch(Exception e) {
             e.printStackTrace();
-            return HttpStatus.INTERNAL_SERVER_ERROR;
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
-        return HttpStatus.OK;
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @PutMapping("/{id}")
-    public HttpStatus updateDocument(@RequestBody Document document, @PathVariable("id") long ID) {
+    public ResponseEntity<Void> updateDocument(@RequestBody Document document, @PathVariable("id") long ID) {
         document.setID(ID);
-        return documentService.update(document) ? HttpStatus.OK : HttpStatus.NOT_FOUND;
+        return documentService.update(document) ? new ResponseEntity<>(null, HttpStatus.OK) :
+                new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
     }
 
     @DeleteMapping("/{id}")
