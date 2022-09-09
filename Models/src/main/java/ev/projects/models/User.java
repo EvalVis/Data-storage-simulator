@@ -27,6 +27,7 @@ public class User implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long ID;
+    @Column(unique = true)
     private String name;
     private String password;
     @OneToMany(cascade = CascadeType.ALL,
