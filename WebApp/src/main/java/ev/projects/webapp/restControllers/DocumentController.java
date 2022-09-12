@@ -2,12 +2,12 @@ package ev.projects.webapp.restControllers;
 
 import ev.projects.models.Document;
 import ev.projects.services.IDocumentService;
-import ev.projects.webapp.requestModels.UploadDocumentRequest;
-import ev.projects.webapp.responseModels.DownloadDocumentResponse;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.Resource;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -33,10 +33,10 @@ public class DocumentController {
     }
 
     @GetMapping("/download/{document_id}")
-    public ResponseEntity<DownloadDocumentResponse> downloadDocument(@PathVariable("document_id") long documentID) {
+    public ResponseEntity<Resource> downloadDocument(@PathVariable("document_id") long documentID) {
         try {
-            byte[] downloadData = documentService.getDocumentFile(documentID);
-            return ResponseEntity.status(HttpStatus.OK).body(new DownloadDocumentResponse(downloadData));
+            Resource resource = documentService.getDocumentFile(documentID);
+            return ResponseEntity.status(HttpStatus.OK).body(resource);
         } catch (Exception e) {
             e.printStackTrace();
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
@@ -45,14 +45,15 @@ public class DocumentController {
 
     @PostMapping("/")
     public ResponseEntity<Void> createDocument(@RequestBody Document document) {
-        return documentService.add(document) ? new ResponseEntity<>(null, HttpStatus.OK) :
-                new ResponseEntity<>(HttpStatus.CONFLICT);
+        return documentService.add(document) != null ? new ResponseEntity<>(null, HttpStatus.OK) :
+                new ResponseEntity<>(null, HttpStatus.CONFLICT);
     }
 
-    @PatchMapping("/")
-    public ResponseEntity<Void> uploadDocument(@RequestBody UploadDocumentRequest uploadDocumentRequest) {
+    @PatchMapping("/{document_id}")
+    public ResponseEntity<Void> uploadDocument(@PathVariable("document_id") long documentID,
+                                               @RequestParam("file") MultipartFile file) {
         try {
-            documentService.uploadDocument(uploadDocumentRequest.getDocumentID(), uploadDocumentRequest.getFile());
+            documentService.uploadDocument(documentID, file);
         } catch(Exception e) {
             e.printStackTrace();
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
