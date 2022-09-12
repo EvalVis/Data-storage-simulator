@@ -53,4 +53,15 @@ public class Case {
     public int hashCode() {
         return Objects.hash(ID);
     }
+
+    @Override
+    public String toString() {
+        return "Case{" +
+                "ID=" + ID +
+                ", title='" + title + '\'' +
+                ", description='" + description + '\'' +
+                ", creationDate=" + creationDate +
+                ", creatorUser=" + creatorUser +
+                '}';
+    }
 }
