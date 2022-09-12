@@ -39,7 +39,6 @@ public class CaseService implements ICaseService {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         return userService.getByUsername(auth.getName()).map(user -> {
             aCase.setCreatorUser(user);
-            aCase.setCreationDate(new Date());
             return caseRepository.save(aCase);
         }).orElse(null);
     }
