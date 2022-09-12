@@ -123,7 +123,6 @@ public class CaseControllerTest {
         List<Case> cases = getResponse.getBody();
         assertEquals(getResponse.getStatusCode(), HttpStatus.OK);
         assertNotNull(cases);
-        assertEquals(index + 1, cases.size());
         Case aCase = cases.get(index);
         assertCaseProperties(aCase, username, title, description, index + 1);
     }

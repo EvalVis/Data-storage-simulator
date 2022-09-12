@@ -72,14 +72,14 @@ public class DocumentControllerTest {
     @Test
     public void getDocumentsByCaseTest() {
         String url = baseUrl + "/1/";
-        testDocuments(url, 1, 3, "English lesson 1", "Cool", null,
+        testDocuments(url,  3, "English lesson 1", "Cool", null,
                 0, null, 1, 0, 0);
     }
 
     @Test
     public void getAttachmentsByDocumentTest() {
         String url = baseUrl + "/attachments/3/";
-        testDocuments(url, 1, 4, "English 1 homework", "Not so cool", null,
+        testDocuments(url,  4, "English 1 homework", "Not so cool", null,
                 0, null, 0, 3, 0);
     }
 
@@ -111,7 +111,7 @@ public class DocumentControllerTest {
                 request, new ParameterizedTypeReference<>() {});
         assertEquals(HttpStatus.OK, response.getStatusCode());
         url = baseUrl + "/attachments/1/";
-        testDocuments(url, 2, 6, "Renamed", "renamed", null,
+        testDocuments(url,  6, "Renamed", "renamed", null,
                 0, null, 0, 1, 1);
     }
     
@@ -129,7 +129,7 @@ public class DocumentControllerTest {
         ResponseEntity<Void> response = restTemplate.exchange(url, HttpMethod.PATCH, request, Void.class);
         assertEquals(HttpStatus.OK, response.getStatusCode());
         url = baseUrl + "/2/";
-        testDocuments(url, 1, 1, "Math lesson 1",
+        testDocuments(url,  1, "Math lesson 1",
                 "Amazing", "1_image.jpg", 139191,
                 "jpg", 2, 0, 0);
     }
@@ -155,7 +155,7 @@ public class DocumentControllerTest {
         assertThrows(AssertionFailedError.class, this::getDocumentsByCaseTest);
     }
 
-    private void testDocuments(String url, int listSize, long ID, String title, String description, String filePath,
+    private void testDocuments(String url, long ID, String title, String description, String filePath,
                                 long fileSize, String mimeType, long owningCaseID,
                                 long owningDocumentID, int documentIndex) {
         TestRestTemplate restTemplate = new TestRestTemplate().withBasicAuth(username, password);
@@ -163,7 +163,6 @@ public class DocumentControllerTest {
                 null, new ParameterizedTypeReference<>() {});
         List<Document> documents = response.getBody();
         assertNotNull(documents);
-        assertEquals(listSize, documents.size());
         Document document = documents.get(documentIndex);
         assertDocumentProperties(document, ID, title, description, filePath, fileSize, mimeType);
         assertDocumentOwners(document, owningCaseID, owningDocumentID);
