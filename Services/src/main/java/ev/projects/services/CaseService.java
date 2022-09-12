@@ -25,6 +25,11 @@ public class CaseService implements ICaseService {
     }
 
     @Override
+    public List<Case> getAllWithDocuments() {
+        return caseRepository.findAllWithDocuments();
+    }
+
+    @Override
     public List<Case> getAll() {
         return caseRepository.findAll();
     }

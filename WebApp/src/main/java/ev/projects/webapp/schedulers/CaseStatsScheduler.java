@@ -1,8 +1,10 @@
 package ev.projects.webapp.schedulers;
 
 import ev.projects.models.Case;
+import ev.projects.models.Document;
 import ev.projects.models.Log;
 import ev.projects.services.ICaseService;
+import ev.projects.services.IDocumentService;
 import ev.projects.services.ILogService;
 import lombok.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,11 +19,13 @@ public class CaseStatsScheduler {
 
     private ICaseService caseService;
     private ILogService logService;
+    private IDocumentService documentService;
 
     @Autowired
-    public CaseStatsScheduler(ICaseService caseService, ILogService logService) {
+    public CaseStatsScheduler(ICaseService caseService, ILogService logService, IDocumentService documentService) {
         this.caseService = caseService;
         this.logService = logService;
+        this.documentService = documentService;
     }
 
     @Scheduled(fixedRate = 1000)
@@ -37,8 +41,7 @@ public class CaseStatsScheduler {
     }
 
     public CaseStats findBiggestCase() {
-        List<Case> cases = caseService.getAll();
-        cases.size();
+        List<Case> cases = caseService.getAllWithDocuments();
         long maxSize = 0;
         Case biggestCase = null;
         for(var aCase : cases) {
@@ -50,9 +53,8 @@ public class CaseStatsScheduler {
                 if(document == null) {
                     continue;
                 }
-                System.exit(0);
                 size += document.getFileSize();
-                for(var attachment : document.getAttachments()) {
+                for(var attachment : documentService.getAllAttachmentsByDocument(document.getID())) {
                     if(attachment == null) {
                         continue;
                     }
