@@ -11,7 +11,7 @@ public interface ICaseService {
 
     List<Case> getAll();
     Optional<Case> getById(Long ID);
-    void add(Case aCase);
+    Case add(Case aCase);
     boolean update(Case aCase);
     void removeById(long ID);
 

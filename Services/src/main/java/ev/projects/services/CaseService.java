@@ -35,14 +35,13 @@ public class CaseService implements ICaseService {
     }
 
     @Override
-    public void add(Case aCase) {
+    public Case add(Case aCase) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        userService.getByUsername(auth.getName()).map(user -> {
+        return userService.getByUsername(auth.getName()).map(user -> {
             aCase.setCreatorUser(user);
             aCase.setCreationDate(new Date());
-            caseRepository.save(aCase);
-            return null;
-        });
+            return caseRepository.save(aCase);
+        }).orElse(null);
     }
 
     @Override
