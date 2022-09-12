@@ -71,7 +71,7 @@ public class CaseControllerTest {
     }
 
     @Test
-    public void getCasesTest() {
+    public void shouldReturnAllCasesTest() {
         TestRestTemplate restTemplate = new TestRestTemplate().withBasicAuth(username1, password1);
         assertCase(restTemplate, "Math", "Math horrors", username2, (int) (caseCountOffset + 1));
     }
