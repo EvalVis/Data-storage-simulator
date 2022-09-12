@@ -162,16 +162,14 @@ public class DocumentControllerTest {
         ResponseEntity<List<Document>> response = restTemplate.exchange(url, HttpMethod.GET,
                 null, new ParameterizedTypeReference<>() {});
         List<Document> documents = response.getBody();
-        Document document = documents.get(documentIndex);
         assertNotNull(documents);
         assertEquals(listSize, documents.size());
-        assertNotNull(document);
-        assertEquals(ID, document.getID());
-        assertEquals(title, document.getTitle());
-        assertEquals(description, document.getDescription());
-        assertEquals(filePath, document.getFilePath());
-        assertEquals(fileSize, document.getFileSize());
-        assertEquals(mimeType, document.getMimeType());
+        Document document = documents.get(documentIndex);
+        assertDocumentProperties(document, ID, title, description, filePath, fileSize, mimeType);
+        assertDocumentOwners(document, owningCaseID, owningDocumentID);
+    }
+
+    private void assertDocumentOwners(Document document, long owningCaseID, long owningDocumentID) {
         if(owningCaseID > 0) {
             assertNotNull(document.getOwningCase());
             assertNull(document.getOwningDocument());
@@ -182,6 +180,17 @@ public class DocumentControllerTest {
             assertNull(document.getOwningCase());
             assertEquals(owningDocumentID, document.getOwningDocument().getID());
         }
+    }
+
+    private void assertDocumentProperties(Document document, long ID, String title, String description,
+                                          String filePath, long fileSize, String mimeType) {
+        assertNotNull(document);
+        assertEquals(ID, document.getID());
+        assertEquals(title, document.getTitle());
+        assertEquals(description, document.getDescription());
+        assertEquals(filePath, document.getFilePath());
+        assertEquals(fileSize, document.getFileSize());
+        assertEquals(mimeType, document.getMimeType());
     }
 
     @AfterEach

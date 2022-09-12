@@ -87,12 +87,8 @@ public class CaseControllerTest {
         assertNotNull(responseCase);
         assertTrue(responseCase.isPresent());
         Case aCase = responseCase.get();
-        assertEquals( "English", aCase.getTitle());
-        assertEquals( "English lessons", aCase.getDescription());
-        assertEquals( caseCountOffset + 1, aCase.getID());
-        assertNotNull(aCase.getCreatorUser());
         assertEquals( userCountOffset + 1, aCase.getCreatorUser().getID());
-        assertEquals(username1, aCase.getCreatorUser().getName());
+        assertCaseProperties(aCase, username1, "English", "English lessons", caseCountOffset + 1);
     }
 
     @Test
@@ -129,9 +125,14 @@ public class CaseControllerTest {
         assertNotNull(cases);
         assertEquals(index + 1, cases.size());
         Case aCase = cases.get(index);
+        assertCaseProperties(aCase, username, title, description, index + 1);
+    }
+
+    private void assertCaseProperties(Case aCase, String username, String title,
+                                      String description, long caseID) {
         assertNotNull(aCase);
         assertNotNull(aCase.getCreatorUser());
-        assertEquals(index + 1, aCase.getID());
+        assertEquals(caseID, aCase.getID());
         assertEquals(username, aCase.getCreatorUser().getName());
         assertEquals(title, aCase.getTitle());
         assertEquals(description, aCase.getDescription());
