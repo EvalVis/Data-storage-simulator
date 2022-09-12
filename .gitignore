@@ -35,3 +35,4 @@ build/
 ### Ignore sensitive data ###
 WebApp/src/main/resources/application.properties
 Services/src/main/resources/application.properties
+data/
