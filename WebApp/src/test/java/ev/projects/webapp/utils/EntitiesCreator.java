@@ -15,7 +15,6 @@ public class EntitiesCreator {
         aCase.setTitle(title);
         aCase.setDescription(description);
         aCase.setCreatorUser(user);
-        aCase.setCreationDate(new Date());
         return aCase;
     }
 
