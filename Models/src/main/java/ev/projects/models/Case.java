@@ -61,7 +61,7 @@ public class Case {
                 ", title='" + title + '\'' +
                 ", description='" + description + '\'' +
                 ", creationDate=" + creationDate +
-                ", creatorUser=" + creatorUser +
+                ", creatorUser=" + creatorUser.getUsername() +
                 '}';
     }
 }
