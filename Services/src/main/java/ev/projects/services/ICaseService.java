@@ -12,7 +12,7 @@ public interface ICaseService {
     List<Case> getAll();
     Optional<Case> getById(Long ID);
     Case add(Case aCase);
-    boolean update(Case aCase);
+    void update(Case aCase);
     void removeById(long ID);
 
 }

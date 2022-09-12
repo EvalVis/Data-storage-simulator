@@ -45,12 +45,11 @@ public class CaseService implements ICaseService {
     }
 
     @Override
-    public boolean update(Case aCase) {
-        return caseRepository.findById(aCase.getID()).map(c -> {
+    public void update(Case aCase) {
+        caseRepository.findById(aCase.getID()).map(c -> {
             c.copy(aCase);
-            caseRepository.save(c);
-            return true;
-        }).orElse(false);
+            return caseRepository.save(c);
+        }).orElse(add(aCase));
     }
 
     @Override

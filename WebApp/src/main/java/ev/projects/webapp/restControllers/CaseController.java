@@ -37,10 +37,9 @@ public class CaseController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Void> updateCase(@RequestBody Case aCase, @PathVariable("id") long ID) {
+    public void updateCase(@RequestBody Case aCase, @PathVariable("id") long ID) {
         aCase.setID(ID);
-        return caseService.update(aCase) ? new ResponseEntity<>(null, HttpStatus.OK) :
-        new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+        caseService.update(aCase);
     }
 
     @DeleteMapping("/{id}")

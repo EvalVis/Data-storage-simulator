@@ -109,12 +109,11 @@ public class DocumentService implements IDocumentService {
     }
 
     @Override
-    public boolean update(Document document) {
-        return documentRepository.findById(document.getID()).map(d -> {
+    public void update(Document document) {
+        documentRepository.findById(document.getID()).map(d -> {
             d.copy(document);
-            documentRepository.save(d);
-            return true;
-        }).orElse(false);
+            return documentRepository.save(d);
+        }).orElse(add(document));
     }
 
     @Override

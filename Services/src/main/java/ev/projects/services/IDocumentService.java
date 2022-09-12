@@ -17,7 +17,7 @@ public interface IDocumentService {
     Resource getDocumentFile(long ID) throws Exception;
     void uploadDocument(long documentID, MultipartFile file);
     Document add(Document document);
-    boolean update(Document document);
+    void update(Document document);
     void removeById(long ID);
 
 }
