@@ -11,6 +11,7 @@ import org.springframework.core.io.UrlResource;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.persistence.EntityNotFoundException;
 import javax.print.Doc;
 import java.io.File;
 import java.io.FileInputStream;
@@ -110,10 +111,13 @@ public class DocumentService implements IDocumentService {
 
     @Override
     public void update(Document document) {
-        documentRepository.findById(document.getID()).map(d -> {
-            d.copy(document);
-            return documentRepository.save(d);
-        }).orElse(add(document));
+        try {
+            Document dbDocument = documentRepository.getOne(document.getID());
+            dbDocument.copy(document);
+            documentRepository.save(dbDocument);
+        } catch(EntityNotFoundException e) {
+            documentRepository.save(document);
+        }
     }
 
     @Override

@@ -8,6 +8,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.EntityNotFoundException;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -45,10 +46,13 @@ public class CaseService implements ICaseService {
 
     @Override
     public void update(Case aCase) {
-        caseRepository.findById(aCase.getID()).map(c -> {
-            c.copy(aCase);
-            return caseRepository.save(c);
-        }).orElse(add(aCase));
+        try {
+            Case dbCase = caseRepository.getOne(aCase.getID());
+            dbCase.copy(aCase);
+            caseRepository.save(dbCase);
+        } catch(EntityNotFoundException e) {
+            caseRepository.save(aCase);
+        }
     }
 
     @Override
