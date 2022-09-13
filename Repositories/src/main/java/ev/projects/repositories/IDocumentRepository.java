@@ -1,13 +1,15 @@
 package ev.projects.repositories;
 
 import ev.projects.models.Document;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
+
 import java.util.List;
-import java.util.Optional;
 
-public interface IDocumentRepository {
+@Repository
+public interface IDocumentRepository extends JpaRepository<Document, Long> {
 
-    Optional<Document> getById(long ID);
-    List<Document> getAllDocumentsByCase(long caseID);
-    List<Document> getAllAttachmentsByDocument(long documentID);
+    List<Document> findDocumentsByOwningCase_ID(long caseID);
+    List<Document> findDocumentsByOwningDocument_ID(long documentID);
 
 }

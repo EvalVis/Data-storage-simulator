@@ -2,11 +2,23 @@ package ev.projects.services;
 
 import ev.projects.models.Document;
 import ev.projects.repositories.IDocumentRepository;
+import org.apache.commons.io.FilenameUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.ComponentScan;
+import org.springframework.core.io.ByteArrayResource;
+import org.springframework.core.io.InputStreamResource;
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.UrlResource;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+import javax.persistence.EntityNotFoundException;
+import javax.print.Doc;
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -14,38 +26,108 @@ import java.util.Optional;
 @Service
 public class DocumentService implements IDocumentService {
 
+    private String storageDirPath = System.getProperty("user.dir") + "/data/";
+
     private IDocumentRepository documentRepository;
+
 
     @Autowired
     public DocumentService(IDocumentRepository documentRepository) {
         this.documentRepository = documentRepository;
     }
 
+    @Override
+    public Optional<Document> getById(long ID) {
+        return documentRepository.findById(ID);
+    }
 
     @Override
     public List<Document> getAllDocumentsByCase(long caseID) {
-        return documentRepository.getAllDocumentsByCase(caseID);
+        return documentRepository.findDocumentsByOwningCase_ID(caseID);
     }
 
     @Override
     public List<Document> getAllAttachmentsByDocument(long documentID) {
-        return documentRepository.getAllAttachmentsByDocument(documentID);
+        return documentRepository.findDocumentsByOwningDocument_ID(documentID);
     }
 
     @Override
-    public byte[] getDocumentFile(long ID) {
-        return documentRepository.getById(ID).
-                map(Document::getFilePath).
-                map(this::readFileFromStream).
-                orElse(null);
-    }
-
-    private byte[] readFileFromStream(String filePath) {
+    public void uploadDocument(long documentID, MultipartFile file) {
         try {
-            return Objects.requireNonNull(getClass().getResourceAsStream(filePath)).readAllBytes();
+            Document document = documentRepository.getOne(documentID);
+            File storageDir = new File(storageDirPath);
+            if(storageDir.exists()) {
+                deletePreviousDocument(storageDir, documentID);
+            }
+            else {
+                storageDir.mkdir();
+            }
+            deletePreviousDocument(storageDir,documentID);
+            String originalFileName = file.getOriginalFilename();
+            String mimeType = FilenameUtils.getExtension(originalFileName);
+            String filePath = documentID + "_" +
+                    originalFileName.replaceFirst("[.][^.]+$", "") + "." + mimeType;
+            File newFile = new File(storageDirPath + "/" + filePath);
+            newFile.createNewFile();
+            file.transferTo(newFile);
+            document.setFilePath(filePath);
+            document.setFileSize(file.getSize());
+            document.setMimeType(mimeType);
+            update(document);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
     }
 
+    private void deletePreviousDocument(File directory, long documentID) {
+        Arrays.stream(
+                Objects.requireNonNull(
+                        directory.listFiles((dir, name)
+                -> name.startsWith(documentID + "_"))))
+                .findFirst()
+                .map(File::delete);
+    }
+
+    @Override
+    public Resource getDocumentFile(long ID) {
+        return documentRepository.findById(ID).
+                map(Document::getFilePath).
+                map(this::readFileFromStream).
+                orElse(null);
+    }
+
+    private Resource readFileFromStream(String filePath) {
+        String path = storageDirPath + "/" + filePath;
+        try {
+            return new ByteArrayResource(Files.readAllBytes(Path.of(path)));
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Override
+    public Document add(Document document) {
+        return Optional.ofNullable(document.getOwningCase()).map(c -> documentRepository.save(document))
+                .orElse(Optional.ofNullable(document.getOwningDocument()).
+                        flatMap(d -> documentRepository.findById(d.getID())
+                                .filter(parent -> parent.getOwningDocument() == null)
+                                .map(p -> documentRepository.save(document)))
+                        .orElse(null));
+    }
+
+    @Override
+    public void update(Document document) {
+        try {
+            Document dbDocument = documentRepository.getOne(document.getID());
+            dbDocument.copy(document);
+            documentRepository.save(dbDocument);
+        } catch(EntityNotFoundException e) {
+            documentRepository.save(document);
+        }
+    }
+
+    @Override
+    public void removeById(long ID) {
+        documentRepository.deleteById(ID);
+    }
 }
