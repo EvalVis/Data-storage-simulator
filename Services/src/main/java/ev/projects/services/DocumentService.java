@@ -11,6 +11,7 @@ import org.springframework.core.io.UrlResource;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.persistence.EntityNotFoundException;
 import javax.print.Doc;
 import java.io.File;
 import java.io.FileInputStream;
@@ -25,7 +26,7 @@ import java.util.Optional;
 @Service
 public class DocumentService implements IDocumentService {
 
-    private String storageDirPath = System.getProperty("user.dir") + "/../data/";
+    private String storageDirPath = System.getProperty("user.dir") + "/data/";
 
     private IDocumentRepository documentRepository;
 
@@ -54,7 +55,14 @@ public class DocumentService implements IDocumentService {
     public void uploadDocument(long documentID, MultipartFile file) {
         try {
             Document document = documentRepository.getOne(documentID);
-            deletePreviousDocument(documentID);
+            File storageDir = new File(storageDirPath);
+            if(storageDir.exists()) {
+                deletePreviousDocument(storageDir, documentID);
+            }
+            else {
+                storageDir.mkdir();
+            }
+            deletePreviousDocument(storageDir,documentID);
             String originalFileName = file.getOriginalFilename();
             String mimeType = FilenameUtils.getExtension(originalFileName);
             String filePath = documentID + "_" +
@@ -71,11 +79,10 @@ public class DocumentService implements IDocumentService {
         }
     }
 
-    private void deletePreviousDocument(long documentID) {
-        File storageDir = new File(storageDirPath);
+    private void deletePreviousDocument(File directory, long documentID) {
         Arrays.stream(
                 Objects.requireNonNull(
-                        storageDir.listFiles((dir, name)
+                        directory.listFiles((dir, name)
                 -> name.startsWith(documentID + "_"))))
                 .findFirst()
                 .map(File::delete);
@@ -109,12 +116,14 @@ public class DocumentService implements IDocumentService {
     }
 
     @Override
-    public boolean update(Document document) {
-        return documentRepository.findById(document.getID()).map(d -> {
-            d.copy(document);
-            documentRepository.save(d);
-            return true;
-        }).orElse(false);
+    public void update(Document document) {
+        try {
+            Document dbDocument = documentRepository.getOne(document.getID());
+            dbDocument.copy(document);
+            documentRepository.save(dbDocument);
+        } catch(EntityNotFoundException e) {
+            documentRepository.save(document);
+        }
     }
 
     @Override

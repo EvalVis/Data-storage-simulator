@@ -62,10 +62,9 @@ public class DocumentController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Void> updateDocument(@RequestBody Document document, @PathVariable("id") long ID) {
+    public void updateDocument(@RequestBody Document document, @PathVariable("id") long ID) {
         document.setID(ID);
-        return documentService.update(document) ? new ResponseEntity<>(null, HttpStatus.OK) :
-                new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+        documentService.update(document);
     }
 
     @DeleteMapping("/{id}")

@@ -19,7 +19,7 @@ import org.springframework.http.ResponseEntity;
 import java.util.List;
 import java.util.Optional;
 
-import static ev.projects.webapp.utils.EntitiesCreator.createCase;
+import static ev.projects.models.CaseFactory.createCase;
 import static org.junit.jupiter.api.Assertions.*;
 
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
@@ -71,7 +71,7 @@ public class CaseControllerTest {
     }
 
     @Test
-    public void getCasesTest() {
+    public void shouldReturnAllCasesTest() {
         TestRestTemplate restTemplate = new TestRestTemplate().withBasicAuth(username1, password1);
         assertCase(restTemplate, "Math", "Math horrors", username2, (int) (caseCountOffset + 1));
     }
@@ -87,12 +87,8 @@ public class CaseControllerTest {
         assertNotNull(responseCase);
         assertTrue(responseCase.isPresent());
         Case aCase = responseCase.get();
-        assertEquals( "English", aCase.getTitle());
-        assertEquals( "English lessons", aCase.getDescription());
-        assertEquals( caseCountOffset + 1, aCase.getID());
-        assertNotNull(aCase.getCreatorUser());
         assertEquals( userCountOffset + 1, aCase.getCreatorUser().getID());
-        assertEquals(username1, aCase.getCreatorUser().getName());
+        assertCaseProperties(aCase, username1, "English", "English lessons", caseCountOffset + 1);
     }
 
     @Test
@@ -127,11 +123,15 @@ public class CaseControllerTest {
         List<Case> cases = getResponse.getBody();
         assertEquals(getResponse.getStatusCode(), HttpStatus.OK);
         assertNotNull(cases);
-        assertEquals(index + 1, cases.size());
         Case aCase = cases.get(index);
+        assertCaseProperties(aCase, username, title, description, index + 1);
+    }
+
+    private void assertCaseProperties(Case aCase, String username, String title,
+                                      String description, long caseID) {
         assertNotNull(aCase);
         assertNotNull(aCase.getCreatorUser());
-        assertEquals(index + 1, aCase.getID());
+        assertEquals(caseID, aCase.getID());
         assertEquals(username, aCase.getCreatorUser().getName());
         assertEquals(title, aCase.getTitle());
         assertEquals(description, aCase.getDescription());
