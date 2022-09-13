@@ -26,8 +26,8 @@
       <td th:text="${document.mimeType}" />
     </tr>
     <tr>
-      <th>Download file</th>
-      <td><a>TODO</a></td>
+      <th>File</th>
+      <td><a th:href="@{'/documents/download/' + ${document.ID}}" class="btn btn-secondary">Download</a></td>
     </tr>
   </div>
   </tbody>

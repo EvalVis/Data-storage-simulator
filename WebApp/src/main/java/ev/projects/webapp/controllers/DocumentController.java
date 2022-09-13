@@ -3,12 +3,16 @@ package ev.projects.webapp.controllers;
 import ev.projects.models.Document;
 import ev.projects.services.IDocumentService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.ByteArrayResource;
+import org.springframework.core.io.Resource;
+import org.springframework.http.ContentDisposition;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-
-import static ev.projects.models.DocumentFactory.createDocumentOfCase;
 
 @Controller
 @RequestMapping("/documents")
@@ -51,6 +55,19 @@ public class DocumentController {
             e.printStackTrace();
         }
         return "redirect:/";
+    }
+
+    @GetMapping("/download/{id}")
+    public ResponseEntity<Resource> downloadDocument(@PathVariable("id") long ID) {
+        try {
+            HttpHeaders httpHeaders = new HttpHeaders();
+            httpHeaders.set(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_OCTET_STREAM_VALUE);
+            Resource resource = documentService.getDocumentFile(ID);
+            return ResponseEntity.ok().headers(httpHeaders).body(resource);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 
 }
