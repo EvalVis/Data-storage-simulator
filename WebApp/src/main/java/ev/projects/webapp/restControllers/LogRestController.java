@@ -12,12 +12,12 @@ import javax.servlet.http.HttpServletResponse;
 
 @RequestMapping("/api/logs")
 @RestController
-public class LogController {
+public class LogRestController {
 
     private ILogService logService;
 
     @Autowired
-    public LogController(ILogService logService) {
+    public LogRestController(ILogService logService) {
         this.logService = logService;
     }
 

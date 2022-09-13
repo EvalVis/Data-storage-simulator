@@ -13,12 +13,12 @@ import java.util.List;
 
 @RequestMapping("/api/documents")
 @RestController
-public class DocumentController {
+public class DocumentRestController {
 
     private IDocumentService documentService;
 
     @Autowired
-    public DocumentController(IDocumentService documentService) {
+    public DocumentRestController(IDocumentService documentService) {
         this.documentService = documentService;
     }
 

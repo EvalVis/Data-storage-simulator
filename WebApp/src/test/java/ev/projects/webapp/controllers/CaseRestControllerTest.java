@@ -25,7 +25,7 @@ import static org.junit.jupiter.api.Assertions.*;
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 @SpringBootTest(classes = WebAppApplication.class, webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
-public class CaseControllerTest {
+public class CaseRestControllerTest {
 
     @LocalServerPort
     private int port;
@@ -50,7 +50,7 @@ public class CaseControllerTest {
     }
 
     @Autowired
-    public CaseControllerTest(IUserRepository userRepository, UserService userService, ICaseRepository caseRepository) {
+    public CaseRestControllerTest(IUserRepository userRepository, UserService userService, ICaseRepository caseRepository) {
         this.userRepository = userRepository;
         this.userService = userService;
         this.caseRepository = caseRepository;

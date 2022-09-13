@@ -29,7 +29,7 @@ import static org.junit.jupiter.api.Assertions.*;
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 @SpringBootTest(classes = WebAppApplication.class, webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @ComponentScan({"ev.projects.services"})
-public class DocumentControllerTest {
+public class DocumentRestControllerTest {
 
     @LocalServerPort
     private int port;
@@ -44,7 +44,7 @@ public class DocumentControllerTest {
     private IDocumentService documentService;
 
     @Autowired
-    public DocumentControllerTest(IUserService userService, ICaseRepository caseRepository, IDocumentService documentService) {
+    public DocumentRestControllerTest(IUserService userService, ICaseRepository caseRepository, IDocumentService documentService) {
         this.userService = userService;
         this.caseRepository = caseRepository;
         this.documentService = documentService;

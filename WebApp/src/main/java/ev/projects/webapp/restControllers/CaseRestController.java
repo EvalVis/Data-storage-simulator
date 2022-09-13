@@ -3,8 +3,6 @@ package ev.projects.webapp.restControllers;
 import ev.projects.models.Case;
 import ev.projects.services.ICaseService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -12,12 +10,12 @@ import java.util.Optional;
 
 @RequestMapping("/api/cases")
 @RestController
-public class CaseController {
+public class CaseRestController {
 
     private ICaseService caseService;
 
     @Autowired
-    public CaseController(ICaseService caseService) {
+    public CaseRestController(ICaseService caseService) {
         this.caseService = caseService;
     }
 
