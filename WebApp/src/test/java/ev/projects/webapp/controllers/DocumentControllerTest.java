@@ -21,8 +21,8 @@ import org.springframework.util.LinkedMultiValueMap;
 import java.io.IOException;
 import java.util.List;
 
-import static ev.projects.webapp.utils.EntitiesCreator.createCase;
-import static ev.projects.webapp.utils.EntitiesCreator.createDocument;
+import static ev.projects.models.CaseFactory.createCase;
+import static ev.projects.models.DocumentFactory.createDocument;
 import static org.junit.jupiter.api.Assertions.*;
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)

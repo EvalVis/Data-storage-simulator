@@ -1,22 +1,8 @@
-package ev.projects.webapp.utils;
+package ev.projects.models;
 
-import ev.projects.models.Case;
-import ev.projects.models.Document;
-import ev.projects.models.User;
-
-import java.util.Arrays;
-import java.util.Date;
 import java.util.List;
 
-public class EntitiesCreator {
-
-    public static Case createCase(String title, String description, User user) {
-        Case aCase = new Case();
-        aCase.setTitle(title);
-        aCase.setDescription(description);
-        aCase.setCreatorUser(user);
-        return aCase;
-    }
+public class DocumentFactory {
 
     public static Document createDocument(String title, String description, long caseID, long documentID) {
         Document document = new Document();

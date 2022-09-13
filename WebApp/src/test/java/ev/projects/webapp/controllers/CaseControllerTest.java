@@ -19,7 +19,7 @@ import org.springframework.http.ResponseEntity;
 import java.util.List;
 import java.util.Optional;
 
-import static ev.projects.webapp.utils.EntitiesCreator.createCase;
+import static ev.projects.models.CaseFactory.createCase;
 import static org.junit.jupiter.api.Assertions.*;
 
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
