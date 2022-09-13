@@ -26,6 +26,21 @@
     </tr>
     </tbody>
 </table>
+<h2>Documents</h2>
+<table  class="table">
+    <thread>
+        <tr>
+            <th scope="col">Document title</th>
+        </tr>
+    </thread>
+    <tbody>
+    <tr th:each="document: ${case.documents}">
+        <td>
+            <a th:href="@{'/documents/' + ${document.getID()}}" th:text="${document.getTitle()}" class="link-primary"></a>
+        </td>
+    </tr>
+    </tbody>
+</table>
 <a th:href="@{'/documents/add-document/' + ${case.ID}}" class="btn btn-success">Add a new document</a>
 </body>
 </html>
