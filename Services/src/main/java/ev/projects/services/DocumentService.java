@@ -26,7 +26,7 @@ import java.util.Optional;
 @Service
 public class DocumentService implements IDocumentService {
 
-    private String storageDirPath = System.getProperty("user.dir") + "/../data/";
+    private String storageDirPath = System.getProperty("user.dir") + "/data/";
 
     private IDocumentRepository documentRepository;
 
