@@ -4,26 +4,24 @@ import ev.projects.services.ICaseService;
 import ev.projects.webapp.forms.SearchFormData;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
-@RequestMapping("/")
-public class HomeController {
+@RequestMapping("/cases")
+public class CaseController {
 
     private ICaseService caseService;
 
     @Autowired
-    public HomeController(ICaseService caseService) {
+    public CaseController(ICaseService caseService) {
         this.caseService = caseService;
     }
 
-    @GetMapping("/")
-    public String index(Model model) {
-        model.addAttribute("cases", caseService.getAll());
-        model.addAttribute("searchFormData", new SearchFormData());
-        return "home";
+    @PostMapping("/get-case")
+    public String redirectToCasePage(@ModelAttribute SearchFormData searchFormData) {
+        return "redirect:/cases/" + searchFormData.getID();
     }
 
 }
