@@ -55,7 +55,14 @@ public class DocumentService implements IDocumentService {
     public void uploadDocument(long documentID, MultipartFile file) {
         try {
             Document document = documentRepository.getOne(documentID);
-            deletePreviousDocument(documentID);
+            File storageDir = new File(storageDirPath);
+            if(storageDir.exists()) {
+                deletePreviousDocument(storageDir, documentID);
+            }
+            else {
+                storageDir.mkdir();
+            }
+            deletePreviousDocument(storageDir,documentID);
             String originalFileName = file.getOriginalFilename();
             String mimeType = FilenameUtils.getExtension(originalFileName);
             String filePath = documentID + "_" +
@@ -72,11 +79,10 @@ public class DocumentService implements IDocumentService {
         }
     }
 
-    private void deletePreviousDocument(long documentID) {
-        File storageDir = new File(storageDirPath);
+    private void deletePreviousDocument(File directory, long documentID) {
         Arrays.stream(
                 Objects.requireNonNull(
-                        storageDir.listFiles((dir, name)
+                        directory.listFiles((dir, name)
                 -> name.startsWith(documentID + "_"))))
                 .findFirst()
                 .map(File::delete);
