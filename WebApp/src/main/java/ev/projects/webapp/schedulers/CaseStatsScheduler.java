@@ -44,17 +44,17 @@ public class CaseStatsScheduler {
         List<Case> cases = caseService.getAllWithDocuments();
         long maxSize = 0;
         Case biggestCase = null;
-        for(var aCase : cases) {
+        for(Case aCase : cases) {
             long size = 0;
             if(aCase == null) {
                 continue;
             }
-            for(var document : aCase.getDocuments()) {
+            for(Document document : aCase.getDocuments()) {
                 if(document == null) {
                     continue;
                 }
                 size += document.getFileSize();
-                for(var attachment : documentService.getAllAttachmentsByDocument(document.getID())) {
+                for(Document attachment : documentService.getAllAttachmentsByDocument(document.getID())) {
                     if(attachment == null) {
                         continue;
                     }
