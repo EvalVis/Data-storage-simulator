@@ -38,7 +38,9 @@
   </div>
   <button type="submit" class="btn btn-primary form-control">Upload file</button>
 </form>
-<a th:if="${document.owningDocument == null}"
-   th:href="@{'/documents/add-document/' + ${document.ID} + '/true'}" class="btn btn-success">Add an attachment</a>
+<div th:if="${document.owningDocument == null}">
+  <div th:replace="document_list :: list(${document.attachments})"></div>
+  <a th:href="@{'/documents/add-document/' + ${document.ID} + '/true'}" class="btn btn-success">Add an attachment</a>
+</div>
 </body>
 </html>
