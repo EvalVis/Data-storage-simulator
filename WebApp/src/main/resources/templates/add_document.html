@@ -11,7 +11,8 @@
     <div class="col-md-4 mt-5">
       <form method="post" th:action="@{/documents/add-document}" th:object="${document}">
         <div class="form-group">
-          <input hidden th:name="owningCase.ID" th:value="${case_id}">
+          <input th:if="${is_attachment}" hidden th:name="owningDocument.ID" th:value="${parent_id}">
+          <input th:unless="${is_attachment}" hidden th:name="owningCase.ID" th:value="${parent_id}">
           <label for="title">Document title</label>
           <input type="text" id="title" class="form-control" th:field="*{title}" />
           <label for="description">Document description</label>

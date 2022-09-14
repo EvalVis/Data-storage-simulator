@@ -33,10 +33,12 @@ public class DocumentController {
         }).orElse("redirect:/");
     }
 
-    @GetMapping("/add-document/{case_id}")
-    public String getAddDocumentForm(Model model, @PathVariable("case_id") Long caseID) {
+    @GetMapping("/add-document/{parent_id}/{is_attachment}")
+    public String getAddDocumentForm(Model model, @PathVariable("parent_id") Long parentID,
+                                     @PathVariable("is_attachment") Boolean isAttachment) {
         model.addAttribute("document", new Document());
-        model.addAttribute("case_id", caseID);
+        model.addAttribute("parent_id", parentID);
+        model.addAttribute("is_attachment", isAttachment);
         return "add_document";
     }
 
