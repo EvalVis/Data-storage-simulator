@@ -64,6 +64,8 @@ public class DocumentController {
         try {
             HttpHeaders httpHeaders = new HttpHeaders();
             httpHeaders.set(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_OCTET_STREAM_VALUE);
+            String mimeType = documentService.getById(ID).get().getMimeType();
+            httpHeaders.set("Content-Disposition", "attachment; filename=document_file." + mimeType);
             Resource resource = documentService.getDocumentFile(ID);
             return ResponseEntity.ok().headers(httpHeaders).body(resource);
         } catch (Exception e) {
