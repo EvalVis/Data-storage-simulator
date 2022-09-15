@@ -28,7 +28,7 @@ public class CaseStatsScheduler {
         this.documentService = documentService;
     }
 
-    @Scheduled(fixedRate = 1000)
+    @Scheduled(fixedRateString = "${scheduler.rate}")
     public void logStats() {
         CaseStats caseStats = findBiggestCase();
         Case biggestCase = caseStats.getBiggestCase();
