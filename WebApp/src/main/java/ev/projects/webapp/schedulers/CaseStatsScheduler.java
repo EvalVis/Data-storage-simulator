@@ -36,7 +36,7 @@ public class CaseStatsScheduler {
         }
     }
 
-    public CaseStats findBiggestCase() {
+    private CaseStats findBiggestCase() {
         List<Case> cases = caseService.getAllWithDocuments();
         long maxSize = 0;
         Case biggestCase = null;
