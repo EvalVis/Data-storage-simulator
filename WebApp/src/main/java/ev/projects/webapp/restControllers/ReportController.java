@@ -14,12 +14,8 @@ import javax.servlet.http.HttpServletResponse;
 @RestController
 public class ReportController {
 
-    private IReportService reportService;
-
     @Autowired
-    public ReportController(IReportService reportService) {
-        this.reportService = reportService;
-    }
+    private IReportService reportService;
 
     @GetMapping("/{id}")
     public ResponseEntity<Void> getLog(@PathVariable("id") long ID, HttpServletResponse servletResponse) {

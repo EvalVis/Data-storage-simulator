@@ -16,16 +16,12 @@ import java.util.List;
 @Component
 public class CaseStatsScheduler {
 
-    private ICaseService caseService;
-    private IReportService reportService;
-    private IDocumentService documentService;
-
     @Autowired
-    public CaseStatsScheduler(ICaseService caseService, IReportService reportService, IDocumentService documentService) {
-        this.caseService = caseService;
-        this.reportService = reportService;
-        this.documentService = documentService;
-    }
+    private ICaseService caseService;
+    @Autowired
+    private IReportService reportService;
+    @Autowired
+    private IDocumentService documentService;
 
     @Scheduled(fixedRateString = "${scheduler.rate}")
     public void logStats() {

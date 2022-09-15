@@ -14,12 +14,8 @@ import java.util.Optional;
 @Service
 public class ReportService implements IReportService {
 
-    private IReportRepository reportRepository;
-
     @Autowired
-    public ReportService(IReportRepository reportRepository) {
-        this.reportRepository = reportRepository;
-    }
+    private IReportRepository reportRepository;
 
     @Override
     public List<Report> getAll() {
