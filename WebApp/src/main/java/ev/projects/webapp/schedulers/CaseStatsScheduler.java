@@ -1,6 +1,7 @@
 package ev.projects.webapp.schedulers;
 
 import ev.projects.models.Case;
+import ev.projects.models.Document;
 import ev.projects.models.Report;
 import ev.projects.services.ICaseService;
 import ev.projects.services.IDocumentService;
@@ -40,28 +41,26 @@ public class CaseStatsScheduler {
         long maxSize = 0;
         Case biggestCase = null;
         for(var aCase : cases) {
-            long size = 0;
-            if(aCase == null) {
-                continue;
-            }
-            for(var document : aCase.getDocuments()) {
-                if(document == null) {
-                    continue;
+            if(aCase != null) {
+                long size = calculateDocumentsSize(aCase.getDocuments());
+                if (size > maxSize) {
+                    maxSize = size;
+                    biggestCase = aCase;
                 }
-                size += document.getFileSize();
-                for(var attachment : documentService.getAllAttachmentsByDocument(document.getID())) {
-                    if(attachment == null) {
-                        continue;
-                    }
-                    size += attachment.getFileSize();
-                }
-            }
-            if(size > maxSize) {
-                maxSize = size;
-                biggestCase = aCase;
             }
         }
         return new CaseStats(biggestCase, maxSize);
+    }
+
+    private long calculateDocumentsSize(List<Document> documents) {
+        long size = 0;
+        for(Document document : documents) {
+            if(document != null) {
+                size += document.getFileSize();
+                size += calculateDocumentsSize(documentService.getAllAttachmentsByDocument(document.getID()));
+            }
+        }
+        return size;
     }
 
     @Getter
