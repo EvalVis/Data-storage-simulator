@@ -1,11 +1,10 @@
 package ev.projects.webapp.schedulers;
 
 import ev.projects.models.Case;
-import ev.projects.models.Document;
-import ev.projects.models.Log;
+import ev.projects.models.Report;
 import ev.projects.services.ICaseService;
 import ev.projects.services.IDocumentService;
-import ev.projects.services.ILogService;
+import ev.projects.services.IReportService;
 import lombok.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -18,13 +17,13 @@ import java.util.List;
 public class CaseStatsScheduler {
 
     private ICaseService caseService;
-    private ILogService logService;
+    private IReportService reportService;
     private IDocumentService documentService;
 
     @Autowired
-    public CaseStatsScheduler(ICaseService caseService, ILogService logService, IDocumentService documentService) {
+    public CaseStatsScheduler(ICaseService caseService, IReportService reportService, IDocumentService documentService) {
         this.caseService = caseService;
-        this.logService = logService;
+        this.reportService = reportService;
         this.documentService = documentService;
     }
 
@@ -35,8 +34,8 @@ public class CaseStatsScheduler {
         if(biggestCase != null) {
             String dataToLog = "Biggest case has size of (" + caseStats.getSize() +
                     " bytes) and following data:" + biggestCase.toString();
-            Log log = new Log(0, new Date(), dataToLog);
-            logService.add(log);
+            Report report = new Report(0, new Date(), dataToLog);
+            reportService.add(report);
         }
     }
 

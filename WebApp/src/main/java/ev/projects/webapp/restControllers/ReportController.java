@@ -1,6 +1,6 @@
 package ev.projects.webapp.restControllers;
 
-import ev.projects.services.ILogService;
+import ev.projects.services.IReportService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -12,13 +12,13 @@ import javax.servlet.http.HttpServletResponse;
 
 @RequestMapping("/api/logs")
 @RestController
-public class LogController {
+public class ReportController {
 
-    private ILogService logService;
+    private IReportService reportService;
 
     @Autowired
-    public LogController(ILogService logService) {
-        this.logService = logService;
+    public ReportController(IReportService reportService) {
+        this.reportService = reportService;
     }
 
     @GetMapping("/{id}")
@@ -26,7 +26,7 @@ public class LogController {
         try {
             servletResponse.setContentType("text/csv");
             servletResponse.addHeader("Content-Disposition", "attachment; filename=\"log_" + ID + ".csv\"");
-            logService.getLog(ID, servletResponse.getWriter());
+            reportService.getLog(ID, servletResponse.getWriter());
             return new ResponseEntity<>(null, HttpStatus.OK);
         } catch(Exception e) {
             e.printStackTrace();

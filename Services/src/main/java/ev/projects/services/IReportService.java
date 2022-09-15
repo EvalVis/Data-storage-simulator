@@ -1,18 +1,18 @@
 package ev.projects.services;
 
-import ev.projects.models.Log;
+import ev.projects.models.Report;
 import org.springframework.stereotype.Service;
 import java.io.PrintWriter;
 import java.util.List;
 import java.util.Optional;
 
 @Service
-public interface ILogService {
+public interface IReportService {
 
-    List<Log> getAll();
+    List<Report> getAll();
 
-    Optional<Log> getById(long ID);
-    void add(Log log);
+    Optional<Report> getById(long ID);
+    void add(Report report);
 
     void getLog(long ID, PrintWriter writer);
 
