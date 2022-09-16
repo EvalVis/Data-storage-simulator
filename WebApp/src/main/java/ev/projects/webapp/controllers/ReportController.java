@@ -1,6 +1,6 @@
 package ev.projects.webapp.controllers;
 
-import ev.projects.services.ILogService;
+import ev.projects.services.IReportService;
 import ev.projects.webapp.forms.SearchFormData;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -12,18 +12,18 @@ import java.io.IOException;
 
 @Controller
 @RequestMapping("/logs")
-public class LogController {
+public class ReportController {
 
-    private ILogService logService;
+    private IReportService reportService;
 
     @Autowired
-    public LogController(ILogService logService) {
-        this.logService = logService;
+    public ReportController(IReportService reportService) {
+        this.reportService = reportService;
     }
 
     @GetMapping("/")
     public String index(Model model) {
-        model.addAttribute("logs", logService.getAll());
+        model.addAttribute("logs", reportService.getAll());
         model.addAttribute("searchFormData", new SearchFormData());
         return "logs";
     }
@@ -38,7 +38,7 @@ public class LogController {
         response.setContentType("text/csv");
         response.setHeader("Content-Disposition", "attachment; filename=report.csv");
         try {
-            logService.getLog(ID, response.getWriter());
+            reportService.getLog(ID, response.getWriter());
         } catch (IOException e) {
             e.printStackTrace();
         }

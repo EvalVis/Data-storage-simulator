@@ -2,10 +2,10 @@ package ev.projects.webapp.schedulers;
 
 import ev.projects.models.Case;
 import ev.projects.models.Document;
-import ev.projects.models.Log;
+import ev.projects.models.Report;
 import ev.projects.services.ICaseService;
 import ev.projects.services.IDocumentService;
-import ev.projects.services.ILogService;
+import ev.projects.services.IReportService;
 import lombok.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -17,56 +17,50 @@ import java.util.List;
 @Component
 public class CaseStatsScheduler {
 
+    @Autowired
     private ICaseService caseService;
-    private ILogService logService;
+    @Autowired
+    private IReportService reportService;
+    @Autowired
     private IDocumentService documentService;
 
-    @Autowired
-    public CaseStatsScheduler(ICaseService caseService, ILogService logService, IDocumentService documentService) {
-        this.caseService = caseService;
-        this.logService = logService;
-        this.documentService = documentService;
-    }
-
-    @Scheduled(fixedRate = 1000)
+    @Scheduled(fixedRateString = "${scheduler.rate}")
     public void logStats() {
         CaseStats caseStats = findBiggestCase();
         Case biggestCase = caseStats.getBiggestCase();
         if(biggestCase != null) {
             String dataToLog = "Biggest case has size of (" + caseStats.getSize() +
                     " bytes) and following data:" + biggestCase.toString();
-            Log log = new Log(0, new Date(), dataToLog);
-            logService.add(log);
+            Report report = new Report(0, new Date(), dataToLog);
+            reportService.add(report);
         }
     }
 
-    public CaseStats findBiggestCase() {
+    private CaseStats findBiggestCase() {
         List<Case> cases = caseService.getAllWithDocuments();
         long maxSize = 0;
         Case biggestCase = null;
-        for(Case aCase : cases) {
-            long size = 0;
-            if(aCase == null) {
-                continue;
-            }
-            for(Document document : aCase.getDocuments()) {
-                if(document == null) {
-                    continue;
+        for(var aCase : cases) {
+            if(aCase != null) {
+                long size = calculateDocumentsSize(aCase.getDocuments());
+                if (size > maxSize) {
+                    maxSize = size;
+                    biggestCase = aCase;
                 }
-                size += document.getFileSize();
-                for(Document attachment : documentService.getAllAttachmentsByDocument(document.getID())) {
-                    if(attachment == null) {
-                        continue;
-                    }
-                    size += attachment.getFileSize();
-                }
-            }
-            if(size > maxSize) {
-                maxSize = size;
-                biggestCase = aCase;
             }
         }
         return new CaseStats(biggestCase, maxSize);
+    }
+
+    private long calculateDocumentsSize(List<Document> documents) {
+        long size = 0;
+        for(Document document : documents) {
+            if(document != null) {
+                size += document.getFileSize();
+                size += calculateDocumentsSize(documentService.getAllAttachmentsByDocument(document.getID()));
+            }
+        }
+        return size;
     }
 
     @Getter
