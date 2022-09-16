@@ -27,6 +27,6 @@
     </tbody>
 </table>
 <div th:replace="document_list :: list(${case.documents})"></div>
-<a th:href="@{'/documents/add-document/' + ${case.ID} + '/false'}" class="btn btn-success">Add a new document</a>
+<a th:href="@{'/documents/add-document-form/' + ${case.ID} + '/false'}" class="btn btn-success">Add a new document</a>
 </body>
 </html>

@@ -40,7 +40,7 @@
 </form>
 <div th:if="${document.owningDocument == null}">
   <div th:replace="document_list :: list(${document.attachments})"></div>
-  <a th:href="@{'/documents/add-document/' + ${document.ID} + '/true'}" class="btn btn-success">Add an attachment</a>
+  <a th:href="@{'/documents/add-document-form/' + ${document.ID} + '/true'}" class="btn btn-success">Add an attachment</a>
 </div>
 </body>
 </html>

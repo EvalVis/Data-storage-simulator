@@ -32,7 +32,7 @@ public class CaseController {
         }).orElse("redirect:/");
     }
 
-    @GetMapping("/add-case")
+    @GetMapping("/add-case-form")
     public String getAddCaseForm(Model model) {
         model.addAttribute("case", new Case());
         return "add_case";
