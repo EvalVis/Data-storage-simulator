@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org" lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Document page</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+</head>
+<body>
+<table class="table table-striped">
+  <tbody>
+  <tr>
+    <th>Title</th>
+    <td th:text="${document.title}" />
+  </tr>
+  <tr>
+    <th>Description</th>
+    <td th:text="${document.description}" />
+  </tr>
+  <div th:if="${document.getFilePath() != null}">
+    <tr>
+      <th>File size</th>
+      <td th:text="${document.fileSize}" />
+    </tr>
+    <tr>
+      <th>Mime type</th>
+      <td th:text="${document.mimeType}" />
+    </tr>
+    <tr>
+      <th>File</th>
+      <td><a th:href="@{'/documents/download/' + ${document.ID}}" class="btn btn-secondary">Download</a></td>
+    </tr>
+  </div>
+  </tbody>
+</table>
+<form th:method="post" th:action="@{'/documents/' + ${document.ID}}" enctype="multipart/form-data">
+  <div class="form-group">
+    <input type="file" name="file" class="form-control-file">
+  </div>
+  <button type="submit" class="btn btn-primary form-control">Upload file</button>
+</form>
+<div th:if="${document.owningDocument == null}">
+  <div th:replace="document_list :: list(${document.attachments})"></div>
+  <a th:href="@{'/documents/add-document/' + ${document.ID} + '/true'}" class="btn btn-success">Add an attachment</a>
+</div>
+</body>
+</html>

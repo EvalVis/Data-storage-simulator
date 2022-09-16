@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Home page</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+</head>
+<body>
+<form name="get-case" th:action="@{/cases/get-case}" th:object="${searchFormData}" method="post">
+    <select class="form-control text-center" th:field="${searchFormData.ID}">
+        <option th:each="case: ${cases}" th:text="${case.title}" th:value="${case.ID}" />
+    </select>
+    <input name="submit" type="submit" value="View" class="btn btn-primary form-control" />
+</form>
+<a th:href="@{/cases/add-case}"class="btn btn-success">Create a new case</a>
+<a th:href="@{/reports/}"class="btn btn-secondary">Reports page</a>
+</body>
+</html>
