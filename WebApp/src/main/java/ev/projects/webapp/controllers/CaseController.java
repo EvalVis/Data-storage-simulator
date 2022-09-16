@@ -25,7 +25,7 @@ public class CaseController {
     }
 
     @GetMapping("/{id}")
-    public String showCase(@PathVariable("id") long ID, Model model) {
+    public String getCase(@PathVariable("id") long ID, Model model) {
         return caseService.getById(ID).map(c -> {
             model.addAttribute("case", c);
             return "case";
