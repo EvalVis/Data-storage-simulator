@@ -9,6 +9,7 @@ import java.util.Optional;
 @Service
 public interface ICaseService {
 
+    List<Case> getAllWithDocuments();
     List<Case> getAll();
     Optional<Case> getById(Long ID);
     Case add(Case aCase);
