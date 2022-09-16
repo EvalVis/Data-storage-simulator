@@ -13,6 +13,9 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 
+/**
+ * WebApp module security (authentication, authorization rules ect.) configuration class.
+ */
 @Configuration
 @EnableWebSecurity
 @EnableJpaRepositories(basePackageClasses = IUserRepository.class)
@@ -27,6 +30,9 @@ public class WebSecurityConfig {
         this.passwordEncoder = passwordEncoder;
     }
 
+    /**
+     * Manages user authorization.
+     */
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity httpSecurity) throws Exception {
         httpSecurity.csrf().disable();
@@ -37,6 +43,9 @@ public class WebSecurityConfig {
         return httpSecurity.build();
     }
 
+    /**
+     * Manages user authentication.
+     */
     @Bean
     public DaoAuthenticationProvider authProvider() {
         DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();

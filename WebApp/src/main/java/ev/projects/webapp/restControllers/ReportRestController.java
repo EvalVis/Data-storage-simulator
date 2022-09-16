@@ -10,6 +10,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import javax.servlet.http.HttpServletResponse;
 
+/**
+ * REST controller for managing Report entity routes.
+ */
 @RequestMapping("/api/logs")
 @RestController
 public class ReportRestController {
@@ -17,8 +20,14 @@ public class ReportRestController {
     @Autowired
     private IReportService reportService;
 
+    /**
+     *
+     * @param ID PK of report to get.
+     * @param servletResponse object to write response data to.
+     * @return report data in csv format.
+     */
     @GetMapping("/{id}")
-    public ResponseEntity<Void> getLog(@PathVariable("id") long ID, HttpServletResponse servletResponse) {
+    public ResponseEntity<Void> getReport(@PathVariable("id") long ID, HttpServletResponse servletResponse) {
         try {
             servletResponse.setContentType("text/csv");
             servletResponse.addHeader("Content-Disposition", "attachment; filename=\"log_" + ID + ".csv\"");

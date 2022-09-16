@@ -13,6 +13,10 @@ import static ev.projects.models.CaseFactory.createCase;
 import static ev.projects.models.DocumentFactory.createAttachmentOfDocument;
 import static ev.projects.models.DocumentFactory.createDocumentOfCase;
 
+/**
+ * Seeds simulation data. Most importantly it adds an initial user, so simulation users don't need to register to
+ * view the simulation data.
+ */
 @Component
 @Profile("!test")
 public class SeedRunner implements CommandLineRunner {
@@ -28,8 +32,12 @@ public class SeedRunner implements CommandLineRunner {
         this.documentService = documentService;
     }
 
+    /**
+     * Seed initial simulation data.
+     * @param args unused.
+     */
     @Override
-    public void run(String... args) throws Exception {
+    public void run(String... args) {
         User user = new User("tester", "tester");
         userService.add(user);
         caseRepository.save(createCase("English", "English lessons", user));

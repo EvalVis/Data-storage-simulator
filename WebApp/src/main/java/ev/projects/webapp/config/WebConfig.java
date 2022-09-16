@@ -6,6 +6,9 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.scheduling.annotation.EnableScheduling;
 
+/**
+ * Main configuration class for WebApp module.
+ */
 @Configuration
 @ComponentScan({"ev.projects.services", "ev.projects.webapp"})
 @EntityScan({"ev.projects.models"})
