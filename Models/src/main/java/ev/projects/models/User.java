@@ -13,6 +13,9 @@ import javax.persistence.*;
 import java.util.Collection;
 import java.util.List;
 
+/**
+ * User entity. Users can create cases.
+ */
 @JsonIdentityInfo(scope = User.class,
         generator = ObjectIdGenerators.PropertyGenerator.class,
         property = "id")

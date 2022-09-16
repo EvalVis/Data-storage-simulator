@@ -8,6 +8,9 @@ import lombok.Setter;
 import javax.persistence.*;
 import java.util.Date;
 
+/**
+ * Entity for storing reports (other entities' statistics ect.) of the program.
+ */
 @Getter
 @Setter
 @NoArgsConstructor
