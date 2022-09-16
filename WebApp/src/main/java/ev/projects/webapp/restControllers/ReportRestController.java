@@ -31,7 +31,7 @@ public class ReportRestController {
         try {
             servletResponse.setContentType("text/csv");
             servletResponse.addHeader("Content-Disposition", "attachment; filename=\"log_" + ID + ".csv\"");
-            reportService.getLog(ID, servletResponse.getWriter());
+            reportService.getReport(ID, servletResponse.getWriter());
             return new ResponseEntity<>(null, HttpStatus.OK);
         } catch(Exception e) {
             e.printStackTrace();

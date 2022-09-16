@@ -55,7 +55,7 @@ public class ReportController {
         response.setContentType("text/csv");
         response.setHeader("Content-Disposition", "attachment; filename=report.csv");
         try {
-            reportService.getLog(ID, response.getWriter());
+            reportService.getReport(ID, response.getWriter());
         } catch (IOException e) {
             e.printStackTrace();
         }
