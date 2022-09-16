@@ -11,7 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 @Controller
-@RequestMapping("/logs")
+@RequestMapping("/reports")
 public class ReportController {
 
     private IReportService reportService;
@@ -23,14 +23,14 @@ public class ReportController {
 
     @GetMapping("/")
     public String index(Model model) {
-        model.addAttribute("logs", reportService.getAll());
+        model.addAttribute("reports", reportService.getAll());
         model.addAttribute("searchFormData", new SearchFormData());
-        return "logs";
+        return "reports";
     }
 
     @PostMapping("/download")
     public String redirectToCasePage(@ModelAttribute SearchFormData searchFormData) {
-        return "redirect:/logs/download/" + searchFormData.getID();
+        return "redirect:/reports/download/" + searchFormData.getID();
     }
 
     @GetMapping("/download/{id}")
