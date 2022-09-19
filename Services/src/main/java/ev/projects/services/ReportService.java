@@ -33,7 +33,7 @@ public class ReportService implements IReportService {
     }
 
     @Override
-    public void getLog(long ID, PrintWriter writer) {
+    public void getReport(long ID, PrintWriter writer) {
         reportRepository.findById(ID).map(l -> {
             extractDataAsCsv(List.of(l), writer);
             return null;

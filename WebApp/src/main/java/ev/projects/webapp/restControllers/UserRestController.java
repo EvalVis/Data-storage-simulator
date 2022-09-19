@@ -9,6 +9,9 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
+/**
+ * REST controller for managing User entity routes.
+ */
 @RequestMapping("/api/users/")
 @RestController
 public class UserRestController {
@@ -20,6 +23,11 @@ public class UserRestController {
         this.userService = userService;
     }
 
+    /**
+     * Create a user in the DB.
+     * @param user - User entity which acts like DTO.
+     * @return ResponseEntity which contains HttpStatus.
+     */
     @PostMapping("/")
     public ResponseEntity<Void> registerUser(@RequestBody User user) {
         try {
@@ -30,6 +38,10 @@ public class UserRestController {
         return new ResponseEntity<>(null, HttpStatus.OK);
     }
 
+    /**
+     * Set a new user password.
+     * @param newPassword replacement password.
+     */
     @PatchMapping("/")
     public void updatePassword(@RequestBody String newPassword) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
@@ -37,6 +49,9 @@ public class UserRestController {
         userService.update(user);
     }
 
+    /**
+     * Delete user account.
+     */
     @DeleteMapping("/")
     public void deleteAccount() {
         userService.remove();

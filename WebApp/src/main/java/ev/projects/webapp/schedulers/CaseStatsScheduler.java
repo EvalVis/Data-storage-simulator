@@ -14,6 +14,9 @@ import org.springframework.stereotype.Component;
 import java.util.Date;
 import java.util.List;
 
+/**
+ * Class for collecting statistics about case using scheduler.
+ */
 @Component
 public class CaseStatsScheduler {
 
@@ -24,6 +27,9 @@ public class CaseStatsScheduler {
     @Autowired
     private IDocumentService documentService;
 
+    /**
+     * Collects report data and adds a report to DB.
+     */
     @Scheduled(fixedRateString = "${scheduler.rate}")
     public void logStats() {
         CaseStats caseStats = findBiggestCase();

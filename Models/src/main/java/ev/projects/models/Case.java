@@ -12,6 +12,9 @@ import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 
+/**
+ * Entity model for storing cases made by user. Cases can contain multiple documents.
+ */
 @JsonIdentityInfo(scope = Case.class,
         generator = ObjectIdGenerators.PropertyGenerator.class,
         property = "id")
@@ -38,6 +41,10 @@ public class Case {
     fetch = FetchType.LAZY, mappedBy = "owningCase")
     private List<Document> documents;
 
+    /**
+     * Used on update then case entity acts like dto, to transfer data from this to DB tracked entity.
+     * @param aCase - case entity acting like dto.
+     */
     public void copy(Case aCase) {
         setTitle(aCase.getTitle());
         setDescription(aCase.getDescription());
